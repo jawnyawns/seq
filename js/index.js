@@ -6073,7 +6073,7 @@ var $author$project$Page$Game$view = F2(
 var $author$project$Page$Oops$view = {
 	ar: _List_fromArray(
 		[
-			$elm$html$Html$text('Something went wrong... please try again later!')
+			$elm$html$Html$text('Something broke. Please try again later.')
 		]),
 	aH: 'Oops'
 };
