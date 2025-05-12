@@ -6004,7 +6004,6 @@ var $author$project$Page$Game$viewLetterInAnagram = F5(
 		var attributes = _List_fromArray(
 			[
 				$elm$html$Html$Attributes$class('puzzle__letter'),
-				$elm$html$Html$Attributes$class('puzzle__letter--anagram'),
 				$elm$html$Html$Events$onClick(
 				toMsg(
 					A2($author$project$Page$Game$LetterClicked, nodeIndex, letterIndex)))
