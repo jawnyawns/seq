@@ -5881,7 +5881,7 @@ var $elm$core$Basics$composeR = F3(
 			f(x));
 	});
 var $elm$json$Json$Encode$string = _Json_wrap;
-var $author$project$Ports$encodeOutboundMsg = function (outboundPayload) {
+var $author$project$Ports$encodeOutbound = function (outboundPayload) {
 	var value = outboundPayload;
 	return $elm$json$Json$Encode$object(
 		_List_fromArray(
@@ -5893,13 +5893,13 @@ var $author$project$Ports$encodeOutboundMsg = function (outboundPayload) {
 			]));
 };
 var $author$project$Ports$outbound = _Platform_outgoingPort('outbound', $elm$core$Basics$identity);
-var $author$project$Ports$toOutbound = A2($elm$core$Basics$composeR, $author$project$Ports$encodeOutboundMsg, $author$project$Ports$outbound);
+var $author$project$Ports$send = A2($elm$core$Basics$composeR, $author$project$Ports$encodeOutbound, $author$project$Ports$outbound);
 var $author$project$Page$Game$updateStorage = function (_v0) {
 	var model = _v0.a;
 	var cmd = _v0.b;
 	return _Utils_Tuple2(
 		model,
-		$author$project$Ports$toOutbound(
+		$author$project$Ports$send(
 			$author$project$Page$Game$encode(model)));
 };
 var $author$project$Page$Game$update = F2(
