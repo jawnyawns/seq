@@ -6085,7 +6085,7 @@ var $author$project$Page$Game$view = F2(
 					A2($author$project$Page$Game$viewPuzzle, toMsg, model),
 					$author$project$Page$Game$viewNextButton(toMsg)
 				]),
-			title: 'SEQ - Today\'s Puzzle'
+			title: 'SEQ'
 		};
 	});
 var $author$project$Page$Oops$view = {
