@@ -5320,9 +5320,6 @@ var $elm$core$Maybe$map = F2(
 			return $elm$core$Maybe$Nothing;
 		}
 	});
-var $elm$core$Basics$negate = function (n) {
-	return -n;
-};
 var $elm$random$Random$Generator = $elm$core$Basics$identity;
 var $elm$random$Random$map = F2(
 	function (func, _v0) {
@@ -5362,6 +5359,9 @@ var $elm_community$random_extra$Random$Extra$sequence = A2(
 	$elm$random$Random$map2($elm$core$List$cons),
 	$elm$random$Random$constant(_List_Nil));
 var $elm$core$Bitwise$and = _Bitwise_and;
+var $elm$core$Basics$negate = function (n) {
+	return -n;
+};
 var $elm$core$Bitwise$xor = _Bitwise_xor;
 var $elm$random$Random$peel = function (_v0) {
 	var state = _v0.a;
@@ -5517,7 +5517,7 @@ var $author$project$Page$Game$fromPuzzleIndex = function (puzzleIndex) {
 				return A2(
 					$elm$random$Random$step,
 					$author$project$Puzzle$shuffle(puzzle),
-					$elm$random$Random$initialSeed(-42)).a;
+					$elm$random$Random$initialSeed(0)).a;
 			},
 			A2($elm_community$list_extra$List$Extra$getAt, puzzleIndex, $author$project$Puzzle$allPuzzles)));
 };
@@ -5608,7 +5608,27 @@ var $author$project$Main$init = function (_v0) {
 };
 var $elm$core$Platform$Sub$batch = _Platform_batch;
 var $elm$core$Platform$Sub$none = $elm$core$Platform$Sub$batch(_List_Nil);
+var $author$project$Page$Game$InvalidPuzzleIndex = 0;
+var $elm$core$Result$fromMaybe = F2(
+	function (err, maybe) {
+		if (!maybe.$) {
+			var v = maybe.a;
+			return $elm$core$Result$Ok(v);
+		} else {
+			return $elm$core$Result$Err(err);
+		}
+	});
 var $elm$core$Basics$modBy = _Basics_modBy;
+var $author$project$Page$Game$nextPuzzle = function (model) {
+	return A2(
+		$elm$core$Result$fromMaybe,
+		0,
+		$author$project$Page$Game$fromPuzzleIndex(
+			A2(
+				$elm$core$Basics$modBy,
+				$elm$core$List$length($author$project$Puzzle$allPuzzles),
+				model.G + 1)));
+};
 var $elm$core$List$append = F2(
 	function (xs, ys) {
 		if (!ys.b) {
@@ -5855,7 +5875,7 @@ var $author$project$Puzzle$swapLetters = F4(
 					puzzle.aC)
 			});
 	});
-var $author$project$Page$Game$swapLetters = F3(
+var $author$project$Page$Game$selectOrSwap = F3(
 	function (nodeIndex, letterIndex, model) {
 		var _v0 = model.u;
 		if (_v0.$ === 1) {
@@ -5938,21 +5958,20 @@ var $author$project$Page$Game$update = F2(
 		if (!msg.$) {
 			var nodeIndex = msg.a;
 			var letterIndex = msg.b;
-			return _Utils_Tuple2(
-				A3($author$project$Page$Game$swapLetters, nodeIndex, letterIndex, model),
-				$elm$core$Platform$Cmd$none);
-		} else {
-			return $author$project$Page$Game$updateStorage(
+			return $elm$core$Result$Ok(
 				_Utils_Tuple2(
-					A2(
-						$elm$core$Maybe$withDefault,
-						model,
-						$author$project$Page$Game$fromPuzzleIndex(
-							A2(
-								$elm$core$Basics$modBy,
-								$elm$core$List$length($author$project$Puzzle$allPuzzles),
-								model.G + 1))),
+					A3($author$project$Page$Game$selectOrSwap, nodeIndex, letterIndex, model),
 					$elm$core$Platform$Cmd$none));
+		} else {
+			return A2(
+				$elm$core$Result$map,
+				$author$project$Page$Game$updateStorage,
+				A2(
+					$elm$core$Result$map,
+					function (okModel) {
+						return _Utils_Tuple2(okModel, $elm$core$Platform$Cmd$none);
+					},
+					$author$project$Page$Game$nextPuzzle(model)));
 		}
 	});
 var $author$project$Main$update = F2(
@@ -5961,17 +5980,19 @@ var $author$project$Main$update = F2(
 		if (!_v0.b.$) {
 			var gameMsg = _v0.a;
 			var gameModel = _v0.b.a;
-			return A3(
-				$author$project$Main$mapUpdate,
-				$author$project$Main$Game,
-				$elm$core$Basics$identity,
-				A2($author$project$Page$Game$update, gameMsg, gameModel));
+			return A2(
+				$elm$core$Result$withDefault,
+				_Utils_Tuple2($author$project$Main$Oops, $elm$core$Platform$Cmd$none),
+				A2(
+					$elm$core$Result$map,
+					A2($author$project$Main$mapUpdate, $author$project$Main$Game, $elm$core$Basics$identity),
+					A2($author$project$Page$Game$update, gameMsg, gameModel)));
 		} else {
 			return _Utils_Tuple2(model, $elm$core$Platform$Cmd$none);
 		}
 	});
 var $elm$json$Json$Decode$value = _Json_decodeValue;
-var $author$project$Page$Game$NextPuzzle = {$: 1};
+var $author$project$Page$Game$ClickNext = {$: 1};
 var $elm$html$Html$button = _VirtualDom_node('button');
 var $elm$virtual_dom$VirtualDom$Normal = function (a) {
 	return {$: 0, a: a};
@@ -5998,7 +6019,7 @@ var $author$project$Page$Game$viewNextButton = function (toMsg) {
 		_List_fromArray(
 			[
 				$elm$html$Html$Events$onClick(
-				toMsg($author$project$Page$Game$NextPuzzle))
+				toMsg($author$project$Page$Game$ClickNext))
 			]),
 		_List_fromArray(
 			[
@@ -6014,7 +6035,7 @@ var $elm$html$Html$Attributes$stringProperty = F2(
 	});
 var $elm$html$Html$Attributes$class = $elm$html$Html$Attributes$stringProperty('className');
 var $elm$html$Html$div = _VirtualDom_node('div');
-var $author$project$Page$Game$LetterClicked = F2(
+var $author$project$Page$Game$ClickLetter = F2(
 	function (a, b) {
 		return {$: 0, a: a, b: b};
 	});
@@ -6037,7 +6058,7 @@ var $author$project$Page$Game$viewLetterInAnagram = F5(
 				$elm$html$Html$Attributes$class('puzzle__letter'),
 				$elm$html$Html$Events$onClick(
 				toMsg(
-					A2($author$project$Page$Game$LetterClicked, nodeIndex, letterIndex)))
+					A2($author$project$Page$Game$ClickLetter, nodeIndex, letterIndex)))
 			]);
 		return A2(
 			$elm$html$Html$button,
