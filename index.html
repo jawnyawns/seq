@@ -19,15 +19,18 @@
 
 <script src="./js/index.js"></script>
 <script>
-  const key = "cache";
-  const value = localStorage.getItem(key);
+  const STORAGE_KEY = "storage";
+
   const app = Elm.Main.init({
-    flags: value ? JSON.parse(value) : null,
+    flags: {
+      encodedGameModel: JSON.parse(localStorage.getItem(STORAGE_KEY))
+    },
   });
+
   app.ports.outbound.subscribe((event) => {
     switch (event.tag) {
       case 'SetStorage':
-        localStorage.setItem(key, JSON.stringify(event.value));
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(event.value));
         break;
     }
   });
