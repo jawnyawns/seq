@@ -5656,7 +5656,7 @@ var $author$project$Puzzle$shuffle = function (puzzle) {
 		$elm_community$random_extra$Random$List$shuffle(
 			$author$project$Puzzle$allLetters(puzzle)));
 };
-var $author$project$Page$Game$fromPuzzleIndex = function (puzzleIndex) {
+var $author$project$Page$GameWithAnagram$fromPuzzleIndex = function (puzzleIndex) {
 	return A2(
 		$elm$core$Maybe$map,
 		function (puzzle) {
@@ -5692,10 +5692,10 @@ var $elm$core$Maybe$withDefault = F2(
 			return _default;
 		}
 	});
-var $author$project$Page$Game$decoder = A2(
+var $author$project$Page$GameWithAnagram$decoder = A2(
 	$elm$json$Json$Decode$andThen,
 	function (puzzleIndex) {
-		var _v0 = $author$project$Page$Game$fromPuzzleIndex(puzzleIndex);
+		var _v0 = $author$project$Page$GameWithAnagram$fromPuzzleIndex(puzzleIndex);
 		if (!_v0.$) {
 			var model = _v0.a;
 			return $elm$json$Json$Decode$succeed(model);
@@ -5721,13 +5721,13 @@ var $elm$core$Result$map = F2(
 	});
 var $elm$core$Platform$Cmd$batch = _Platform_batch;
 var $elm$core$Platform$Cmd$none = $elm$core$Platform$Cmd$batch(_List_Nil);
-var $author$project$Page$Game$init = function (encodedModel) {
+var $author$project$Page$GameWithAnagram$init = function (encodedModel) {
 	return A2(
 		$elm$core$Result$map,
 		function (model) {
 			return _Utils_Tuple2(model, $elm$core$Platform$Cmd$none);
 		},
-		A2($elm$json$Json$Decode$decodeValue, $author$project$Page$Game$decoder, encodedModel));
+		A2($elm$json$Json$Decode$decodeValue, $author$project$Page$GameWithAnagram$decoder, encodedModel));
 };
 var $elm$core$Platform$Cmd$map = _Platform_map;
 var $author$project$Main$mapUpdate = F3(
@@ -5755,11 +5755,11 @@ var $author$project$Main$init = function (_v0) {
 		A2(
 			$elm$core$Result$map,
 			A2($author$project$Main$mapUpdate, $author$project$Main$Game, $elm$core$Basics$identity),
-			$author$project$Page$Game$init(encodedGameModel)));
+			$author$project$Page$GameWithAnagram$init(encodedGameModel)));
 };
 var $elm$core$Platform$Sub$batch = _Platform_batch;
 var $elm$core$Platform$Sub$none = $elm$core$Platform$Sub$batch(_List_Nil);
-var $author$project$Page$Game$InvalidPuzzleIndex = 0;
+var $author$project$Page$GameWithAnagram$InvalidPuzzleIndex = 0;
 var $elm$core$Result$fromMaybe = F2(
 	function (err, maybe) {
 		if (!maybe.$) {
@@ -5770,11 +5770,11 @@ var $elm$core$Result$fromMaybe = F2(
 		}
 	});
 var $elm$core$Basics$modBy = _Basics_modBy;
-var $author$project$Page$Game$nextPuzzle = function (model) {
+var $author$project$Page$GameWithAnagram$nextPuzzle = function (model) {
 	return A2(
 		$elm$core$Result$fromMaybe,
 		0,
-		$author$project$Page$Game$fromPuzzleIndex(
+		$author$project$Page$GameWithAnagram$fromPuzzleIndex(
 			A2(
 				$elm$core$Basics$modBy,
 				$elm$core$List$length($author$project$Puzzle$allPuzzles),
@@ -5878,7 +5878,7 @@ var $author$project$Puzzle$swapLetters = F3(
 			return puzzle;
 		}
 	});
-var $author$project$Page$Game$selectOrSwap = F3(
+var $author$project$Page$GameWithAnagram$selectOrSwap = F3(
 	function (nodeIndex, letterIndex, model) {
 		var _v0 = model.w;
 		if (_v0.$ === 1) {
@@ -5919,7 +5919,7 @@ var $elm$json$Json$Encode$object = function (pairs) {
 			_Json_emptyObject(0),
 			pairs));
 };
-var $author$project$Page$Game$encode = function (model) {
+var $author$project$Page$GameWithAnagram$encode = function (model) {
 	return $elm$json$Json$Encode$object(
 		_List_fromArray(
 			[
@@ -5942,33 +5942,33 @@ var $author$project$Ports$encodeOutbound = function (message) {
 };
 var $author$project$Ports$outbound = _Platform_outgoingPort('outbound', $elm$core$Basics$identity);
 var $author$project$Ports$send = A2($elm$core$Basics$composeR, $author$project$Ports$encodeOutbound, $author$project$Ports$outbound);
-var $author$project$Page$Game$updateStorage = function (_v0) {
+var $author$project$Page$GameWithAnagram$updateStorage = function (_v0) {
 	var model = _v0.a;
 	var cmd = _v0.b;
 	return _Utils_Tuple2(
 		model,
 		$author$project$Ports$send(
-			$author$project$Page$Game$encode(model)));
+			$author$project$Page$GameWithAnagram$encode(model)));
 };
-var $author$project$Page$Game$update = F2(
+var $author$project$Page$GameWithAnagram$update = F2(
 	function (msg, model) {
 		if (!msg.$) {
 			var nodeIndex = msg.a;
 			var letterIndex = msg.b;
 			return $elm$core$Result$Ok(
 				_Utils_Tuple2(
-					A3($author$project$Page$Game$selectOrSwap, nodeIndex, letterIndex, model),
+					A3($author$project$Page$GameWithAnagram$selectOrSwap, nodeIndex, letterIndex, model),
 					$elm$core$Platform$Cmd$none));
 		} else {
 			return A2(
 				$elm$core$Result$map,
-				$author$project$Page$Game$updateStorage,
+				$author$project$Page$GameWithAnagram$updateStorage,
 				A2(
 					$elm$core$Result$map,
 					function (okModel) {
 						return _Utils_Tuple2(okModel, $elm$core$Platform$Cmd$none);
 					},
-					$author$project$Page$Game$nextPuzzle(model)));
+					$author$project$Page$GameWithAnagram$nextPuzzle(model)));
 		}
 	});
 var $author$project$Main$update = F2(
@@ -5983,13 +5983,13 @@ var $author$project$Main$update = F2(
 				A2(
 					$elm$core$Result$map,
 					A2($author$project$Main$mapUpdate, $author$project$Main$Game, $elm$core$Basics$identity),
-					A2($author$project$Page$Game$update, gameMsg, gameModel)));
+					A2($author$project$Page$GameWithAnagram$update, gameMsg, gameModel)));
 		} else {
 			return _Utils_Tuple2(model, $elm$core$Platform$Cmd$none);
 		}
 	});
 var $elm$json$Json$Decode$value = _Json_decodeValue;
-var $author$project$Page$Game$ClickNext = {$: 1};
+var $author$project$Page$GameWithAnagram$ClickNext = {$: 1};
 var $elm$html$Html$button = _VirtualDom_node('button');
 var $elm$virtual_dom$VirtualDom$Normal = function (a) {
 	return {$: 0, a: a};
@@ -6010,13 +6010,13 @@ var $elm$html$Html$Events$onClick = function (msg) {
 };
 var $elm$virtual_dom$VirtualDom$text = _VirtualDom_text;
 var $elm$html$Html$text = $elm$virtual_dom$VirtualDom$text;
-var $author$project$Page$Game$viewNextButton = function (toMsg) {
+var $author$project$Page$GameWithAnagram$viewNextButton = function (toMsg) {
 	return A2(
 		$elm$html$Html$button,
 		_List_fromArray(
 			[
 				$elm$html$Html$Events$onClick(
-				toMsg($author$project$Page$Game$ClickNext))
+				toMsg($author$project$Page$GameWithAnagram$ClickNext))
 			]),
 		_List_fromArray(
 			[
@@ -6032,7 +6032,7 @@ var $elm$html$Html$Attributes$stringProperty = F2(
 	});
 var $elm$html$Html$Attributes$class = $elm$html$Html$Attributes$stringProperty('className');
 var $elm$html$Html$div = _VirtualDom_node('div');
-var $author$project$Page$Game$ClickLetter = F2(
+var $author$project$Page$GameWithAnagram$ClickLetter = F2(
 	function (a, b) {
 		return {$: 0, a: a, b: b};
 	});
@@ -6040,7 +6040,7 @@ var $elm$core$String$cons = _String_cons;
 var $elm$core$String$fromChar = function (_char) {
 	return A2($elm$core$String$cons, _char, '');
 };
-var $author$project$Page$Game$viewLetterInAnagram = F5(
+var $author$project$Page$GameWithAnagram$viewLetterInAnagram = F5(
 	function (toMsg, model, nodeIndex, letterIndex, _char) {
 		var isSelected = _Utils_eq(
 			model.w,
@@ -6055,7 +6055,7 @@ var $author$project$Page$Game$viewLetterInAnagram = F5(
 				$elm$html$Html$Attributes$class('puzzle__letter'),
 				$elm$html$Html$Events$onClick(
 				toMsg(
-					A2($author$project$Page$Game$ClickLetter, nodeIndex, letterIndex)))
+					A2($author$project$Page$GameWithAnagram$ClickLetter, nodeIndex, letterIndex)))
 			]);
 		return A2(
 			$elm$html$Html$button,
@@ -6066,7 +6066,7 @@ var $author$project$Page$Game$viewLetterInAnagram = F5(
 					$elm$core$String$fromChar(_char))
 				]));
 	});
-var $author$project$Page$Game$viewNode = F4(
+var $author$project$Page$GameWithAnagram$viewNode = F4(
 	function (toMsg, model, nodeIndex, node) {
 		if (!node.$) {
 			var word = node.a;
@@ -6091,11 +6091,11 @@ var $author$project$Page$Game$viewNode = F4(
 					]),
 				A2(
 					$elm$core$List$indexedMap,
-					A3($author$project$Page$Game$viewLetterInAnagram, toMsg, model, nodeIndex),
+					A3($author$project$Page$GameWithAnagram$viewLetterInAnagram, toMsg, model, nodeIndex),
 					data.aB));
 		}
 	});
-var $author$project$Page$Game$viewPuzzle = F2(
+var $author$project$Page$GameWithAnagram$viewPuzzle = F2(
 	function (toMsg, model) {
 		return A2(
 			$elm$html$Html$div,
@@ -6105,16 +6105,16 @@ var $author$project$Page$Game$viewPuzzle = F2(
 				]),
 			A2(
 				$elm$core$List$indexedMap,
-				A2($author$project$Page$Game$viewNode, toMsg, model),
+				A2($author$project$Page$GameWithAnagram$viewNode, toMsg, model),
 				model.B.aD));
 	});
-var $author$project$Page$Game$view = F2(
+var $author$project$Page$GameWithAnagram$view = F2(
 	function (toMsg, model) {
 		return {
 			at: _List_fromArray(
 				[
-					A2($author$project$Page$Game$viewPuzzle, toMsg, model),
-					$author$project$Page$Game$viewNextButton(toMsg)
+					A2($author$project$Page$GameWithAnagram$viewPuzzle, toMsg, model),
+					$author$project$Page$GameWithAnagram$viewNextButton(toMsg)
 				]),
 			aJ: 'SEQ'
 		};
@@ -6129,7 +6129,7 @@ var $author$project$Page$Oops$view = {
 var $author$project$Main$view = function (model) {
 	if (!model.$) {
 		var gameModel = model.a;
-		return A2($author$project$Page$Game$view, $elm$core$Basics$identity, gameModel);
+		return A2($author$project$Page$GameWithAnagram$view, $elm$core$Basics$identity, gameModel);
 	} else {
 		return $author$project$Page$Oops$view;
 	}
