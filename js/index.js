@@ -6153,6 +6153,74 @@ var $author$project$Page$GameWithBlanks$nextPuzzle = function (data) {
 				$elm$core$List$length($author$project$Puzzle$allPuzzles),
 				data.G + 1)));
 };
+var $author$project$Page$GameWithBlanks$NoOp = {$: 3};
+var $elm$core$Basics$composeL = F3(
+	function (g, f, x) {
+		return g(
+			f(x));
+	});
+var $elm$core$Task$onError = _Scheduler_onError;
+var $elm$core$Task$attempt = F2(
+	function (resultToMessage, task) {
+		return $elm$core$Task$command(
+			A2(
+				$elm$core$Task$onError,
+				A2(
+					$elm$core$Basics$composeL,
+					A2($elm$core$Basics$composeL, $elm$core$Task$succeed, resultToMessage),
+					$elm$core$Result$Err),
+				A2(
+					$elm$core$Task$andThen,
+					A2(
+						$elm$core$Basics$composeL,
+						A2($elm$core$Basics$composeL, $elm$core$Task$succeed, resultToMessage),
+						$elm$core$Result$Ok),
+					task)));
+	});
+var $elm$browser$Browser$Dom$focus = _Browser_call('focus');
+var $author$project$Page$GameWithBlanks$idOfInputForBlank = function (_v0) {
+	var nodeIndex = _v0.a;
+	var letterIndex = _v0.b;
+	return 'input-for-blank-' + ($elm$core$String$fromInt(nodeIndex) + ('-' + $elm$core$String$fromInt(letterIndex)));
+};
+var $author$project$Puzzle$lengthOfNode = F2(
+	function (nodeIndex, puzzle) {
+		var _v0 = A2($elm_community$list_extra$List$Extra$getAt, nodeIndex, puzzle.aF);
+		if (!_v0.$) {
+			var node = _v0.a;
+			if (node.$ === 1) {
+				var data = node.a;
+				return $elm$core$Maybe$Just(
+					$elm$core$String$length(data.aK));
+			} else {
+				var word = node.a;
+				return $elm$core$Maybe$Just(
+					$elm$core$String$length(word));
+			}
+		} else {
+			return $elm$core$Maybe$Nothing;
+		}
+	});
+var $author$project$Page$GameWithBlanks$focusNextBlank = F2(
+	function (_v0, _v1) {
+		var nodeIndex = _v0.a;
+		var letterIndex = _v0.b;
+		var puzzle = _v1.B;
+		var _v2 = A2($author$project$Puzzle$lengthOfNode, nodeIndex, puzzle);
+		if (!_v2.$) {
+			var maxLetters = _v2.a;
+			return (_Utils_cmp(letterIndex + 1, maxLetters) < 0) ? A2(
+				$elm$core$Task$attempt,
+				function (_v3) {
+					return $author$project$Page$GameWithBlanks$NoOp;
+				},
+				$elm$browser$Browser$Dom$focus(
+					$author$project$Page$GameWithBlanks$idOfInputForBlank(
+						_Utils_Tuple2(nodeIndex, letterIndex + 1)))) : $elm$core$Platform$Cmd$none;
+		} else {
+			return $elm$core$Platform$Cmd$none;
+		}
+	});
 var $author$project$Puzzle$setBlankInNodeAt = F3(
 	function (_v0, maybeChar, node) {
 		var nodeIndex = _v0.a;
@@ -6192,21 +6260,27 @@ var $author$project$Page$GameWithBlanks$setBlank = F3(
 		var _v0 = $elm$core$String$toList(rawInput);
 		if (_v0.b && (!_v0.b.b)) {
 			var letter = _v0.a;
-			return _Utils_update(
-				data,
-				{
-					B: A3(
-						$author$project$Puzzle$setBlank,
-						position,
-						$elm$core$Maybe$Just(letter),
-						data.B)
-				});
+			return _Utils_Tuple2(
+				$author$project$Page$GameWithBlanks$Default(
+					_Utils_update(
+						data,
+						{
+							B: A3(
+								$author$project$Puzzle$setBlank,
+								position,
+								$elm$core$Maybe$Just(letter),
+								data.B)
+						})),
+				A2($author$project$Page$GameWithBlanks$focusNextBlank, position, data));
 		} else {
-			return _Utils_update(
-				data,
-				{
-					B: A3($author$project$Puzzle$setBlank, position, $elm$core$Maybe$Nothing, data.B)
-				});
+			return _Utils_Tuple2(
+				$author$project$Page$GameWithBlanks$Default(
+					_Utils_update(
+						data,
+						{
+							B: A3($author$project$Puzzle$setBlank, position, $elm$core$Maybe$Nothing, data.B)
+						})),
+				$elm$core$Platform$Cmd$none);
 		}
 	});
 var $author$project$Page$GameWithBlanks$updateStorage = function (_v0) {
@@ -6220,43 +6294,56 @@ var $author$project$Page$GameWithBlanks$updateStorage = function (_v0) {
 var $author$project$Page$GameWithBlanks$update = F2(
 	function (msg, model) {
 		var _v0 = _Utils_Tuple2(msg, model);
-		if (!_v0.b.$) {
+		_v0$4:
+		while (true) {
 			switch (_v0.a.$) {
 				case 0:
-					var _v1 = _v0.a;
-					var position = _v1.a;
-					var rawInput = _v1.b;
-					var data = _v0.b.a;
-					return $elm$core$Result$Ok(
-						_Utils_Tuple2(
-							$author$project$Page$GameWithBlanks$Default(
-								A3($author$project$Page$GameWithBlanks$setBlank, position, rawInput, data)),
-							$elm$core$Platform$Cmd$none));
+					if (!_v0.b.$) {
+						var _v1 = _v0.a;
+						var position = _v1.a;
+						var rawInput = _v1.b;
+						var data = _v0.b.a;
+						return $elm$core$Result$Ok(
+							A3($author$project$Page$GameWithBlanks$setBlank, position, rawInput, data));
+					} else {
+						break _v0$4;
+					}
 				case 1:
-					var _v2 = _v0.a;
-					var data = _v0.b.a;
-					return A2(
-						$elm$core$Result$map,
-						$author$project$Page$GameWithBlanks$updateStorage,
-						A2(
+					if (!_v0.b.$) {
+						var _v2 = _v0.a;
+						var data = _v0.b.a;
+						return A2(
 							$elm$core$Result$map,
-							function (okData) {
-								return _Utils_Tuple2(
-									$author$project$Page$GameWithBlanks$Default(okData),
-									$elm$core$Platform$Cmd$none);
-							},
-							$author$project$Page$GameWithBlanks$nextPuzzle(data)));
+							$author$project$Page$GameWithBlanks$updateStorage,
+							A2(
+								$elm$core$Result$map,
+								function (okData) {
+									return _Utils_Tuple2(
+										$author$project$Page$GameWithBlanks$Default(okData),
+										$elm$core$Platform$Cmd$none);
+								},
+								$author$project$Page$GameWithBlanks$nextPuzzle(data)));
+					} else {
+						break _v0$4;
+					}
+				case 2:
+					if (!_v0.b.$) {
+						var _v3 = _v0.a;
+						return $elm$core$Result$Ok(
+							_Utils_Tuple2(
+								$author$project$Page$GameWithBlanks$Exiting(
+									$author$project$Page$GameWithBlanks$encode(model)),
+								$elm$core$Platform$Cmd$none));
+					} else {
+						break _v0$4;
+					}
 				default:
-					var _v3 = _v0.a;
+					var _v4 = _v0.a;
 					return $elm$core$Result$Ok(
-						_Utils_Tuple2(
-							$author$project$Page$GameWithBlanks$Exiting(
-								$author$project$Page$GameWithBlanks$encode(model)),
-							$elm$core$Platform$Cmd$none));
+						_Utils_Tuple2(model, $elm$core$Platform$Cmd$none));
 			}
-		} else {
-			return $elm$core$Result$Err(1);
 		}
+		return $elm$core$Result$Err(1);
 	});
 var $author$project$Main$update = F2(
 	function (msg, model) {
@@ -6510,6 +6597,7 @@ var $elm_community$list_extra$List$Extra$findIndexHelp = F3(
 		}
 	});
 var $elm_community$list_extra$List$Extra$findIndex = $elm_community$list_extra$List$Extra$findIndexHelp(0);
+var $elm$html$Html$Attributes$id = $elm$html$Html$Attributes$stringProperty('id');
 var $elm$html$Html$input = _VirtualDom_node('input');
 var $elm$html$Html$Attributes$maxlength = function (n) {
 	return A2(
@@ -6647,6 +6735,9 @@ var $author$project$Page$GameWithBlanks$viewLetterInUnknown = F5(
 					$elm$html$Html$Attributes$class('puzzle-with-blanks__letter'),
 					$elm$html$Html$Attributes$class(
 					'puzzle-with-blanks__letter--blank-' + $elm$core$String$fromInt(classIndex)),
+					$elm$html$Html$Attributes$id(
+					$author$project$Page$GameWithBlanks$idOfInputForBlank(
+						_Utils_Tuple2(nodeIndex, letterIndex))),
 					$elm$html$Html$Attributes$maxlength(1),
 					$elm$html$Html$Attributes$value(
 					A2(
