@@ -1857,7 +1857,7 @@ var _Platform_worker = F4(function(impl, flagDecoder, debugMetadata, args)
 	return _Platform_initialize(
 		flagDecoder,
 		args,
-		impl.aB,
+		impl.aC,
 		impl.aK,
 		impl.aJ,
 		function() { return function() {} }
@@ -3943,7 +3943,7 @@ var _Browser_element = _Debugger_element || F4(function(impl, flagDecoder, debug
 	return _Platform_initialize(
 		flagDecoder,
 		args,
-		impl.aB,
+		impl.aC,
 		impl.aK,
 		impl.aJ,
 		function(sendToApp, initialModel) {
@@ -3979,7 +3979,7 @@ var _Browser_document = _Debugger_document || F4(function(impl, flagDecoder, deb
 	return _Platform_initialize(
 		flagDecoder,
 		args,
-		impl.aB,
+		impl.aC,
 		impl.aK,
 		impl.aJ,
 		function(sendToApp, initialModel) {
@@ -3997,7 +3997,7 @@ var _Browser_document = _Debugger_document || F4(function(impl, flagDecoder, deb
 				bodyNode = _VirtualDom_applyPatches(bodyNode, currNode, patches, sendToApp);
 				currNode = nextNode;
 				_VirtualDom_divertHrefToApp = 0;
-				(title !== doc.an) && (_VirtualDom_doc.title = title = doc.an);
+				(title !== doc.ao) && (_VirtualDom_doc.title = title = doc.ao);
 			});
 		}
 	);
@@ -4084,9 +4084,9 @@ function _Browser_application(impl)
 				}
 			});
 		},
-		aB: function(flags)
+		aC: function(flags)
 		{
-			return A3(impl.aB, flags, _Browser_getUrl(), key);
+			return A3(impl.aC, flags, _Browser_getUrl(), key);
 		},
 		aL: impl.aL,
 		aK: impl.aK,
@@ -4156,17 +4156,17 @@ var _Browser_decodeEvent = F2(function(decoder, event)
 function _Browser_visibilityInfo()
 {
 	return (typeof _VirtualDom_doc.hidden !== 'undefined')
-		? { az: 'hidden', av: 'visibilitychange' }
+		? { aA: 'hidden', aw: 'visibilitychange' }
 		:
 	(typeof _VirtualDom_doc.mozHidden !== 'undefined')
-		? { az: 'mozHidden', av: 'mozvisibilitychange' }
+		? { aA: 'mozHidden', aw: 'mozvisibilitychange' }
 		:
 	(typeof _VirtualDom_doc.msHidden !== 'undefined')
-		? { az: 'msHidden', av: 'msvisibilitychange' }
+		? { aA: 'msHidden', aw: 'msvisibilitychange' }
 		:
 	(typeof _VirtualDom_doc.webkitHidden !== 'undefined')
-		? { az: 'webkitHidden', av: 'webkitvisibilitychange' }
-		: { az: 'hidden', av: 'visibilitychange' };
+		? { aA: 'webkitHidden', aw: 'webkitvisibilitychange' }
+		: { aA: 'hidden', aw: 'visibilitychange' };
 }
 
 
@@ -4248,10 +4248,10 @@ function _Browser_getViewport()
 {
 	return {
 		ak: _Browser_getScene(),
-		ao: {
+		ap: {
 			ar: _Browser_window.pageXOffset,
 			as: _Browser_window.pageYOffset,
-			ap: _Browser_doc.documentElement.clientWidth,
+			aq: _Browser_doc.documentElement.clientWidth,
 			X: _Browser_doc.documentElement.clientHeight
 		}
 	};
@@ -4262,7 +4262,7 @@ function _Browser_getScene()
 	var body = _Browser_doc.body;
 	var elem = _Browser_doc.documentElement;
 	return {
-		ap: Math.max(body.scrollWidth, body.offsetWidth, elem.scrollWidth, elem.offsetWidth, elem.clientWidth),
+		aq: Math.max(body.scrollWidth, body.offsetWidth, elem.scrollWidth, elem.offsetWidth, elem.clientWidth),
 		X: Math.max(body.scrollHeight, body.offsetHeight, elem.scrollHeight, elem.offsetHeight, elem.clientHeight)
 	};
 }
@@ -4287,13 +4287,13 @@ function _Browser_getViewportOf(id)
 	{
 		return {
 			ak: {
-				ap: node.scrollWidth,
+				aq: node.scrollWidth,
 				X: node.scrollHeight
 			},
-			ao: {
+			ap: {
 				ar: node.scrollLeft,
 				as: node.scrollTop,
-				ap: node.clientWidth,
+				aq: node.clientWidth,
 				X: node.clientHeight
 			}
 		};
@@ -4325,16 +4325,16 @@ function _Browser_getElement(id)
 		var y = _Browser_window.pageYOffset;
 		return {
 			ak: _Browser_getScene(),
-			ao: {
+			ap: {
 				ar: x,
 				as: y,
-				ap: _Browser_doc.documentElement.clientWidth,
+				aq: _Browser_doc.documentElement.clientWidth,
 				X: _Browser_doc.documentElement.clientHeight
 			},
-			ax: {
+			ay: {
 				ar: x + rect.left,
 				as: y + rect.top,
-				ap: rect.width,
+				aq: rect.width,
 				X: rect.height
 			}
 		};
@@ -5210,7 +5210,7 @@ var $author$project$Puzzle$Given = function (a) {
 var $author$project$Puzzle$Puzzle = function (nodes) {
 	return {aE: nodes};
 };
-var $author$project$Puzzle$Anagram = function (a) {
+var $author$project$Puzzle$Unknown = function (a) {
 	return {$: 1, a: a};
 };
 var $elm$core$String$foldr = _String_foldr;
@@ -5218,10 +5218,10 @@ var $elm$core$String$toList = function (string) {
 	return A3($elm$core$String$foldr, $elm$core$List$cons, _List_Nil, string);
 };
 var $author$project$Puzzle$anagramFromWord = function (word) {
-	return $author$project$Puzzle$Anagram(
+	return $author$project$Puzzle$Unknown(
 		{
-			aC: $elm$core$String$toList(word),
-			aq: word
+			au: $elm$core$String$toList(word),
+			al: word
 		});
 };
 var $author$project$Puzzle$allPuzzles = _List_fromArray(
@@ -5340,7 +5340,7 @@ var $author$project$Puzzle$allLetters = function (puzzle) {
 			function (node, acc) {
 				if (node.$ === 1) {
 					var data = node.a;
-					return _Utils_ap(data.aC, acc);
+					return _Utils_ap(data.au, acc);
 				} else {
 					return acc;
 				}
@@ -5623,7 +5623,7 @@ var $author$project$Puzzle$shuffle = function (puzzle) {
 						var data = node.a;
 						var _v2 = A2(
 							$elm_community$list_extra$List$Extra$splitAt,
-							$elm$core$String$length(data.aq),
+							$elm$core$String$length(data.al),
 							remainingLetters);
 						var newLetters = _v2.a;
 						var rest = _v2.b;
@@ -5633,10 +5633,10 @@ var $author$project$Puzzle$shuffle = function (puzzle) {
 								newNodes,
 								_List_fromArray(
 									[
-										$author$project$Puzzle$Anagram(
+										$author$project$Puzzle$Unknown(
 										_Utils_update(
 											data,
-											{aC: newLetters}))
+											{au: newLetters}))
 									])));
 					} else {
 						var word = node.a;
@@ -5917,7 +5917,7 @@ var $author$project$Puzzle$getLetterAt = F2(
 		var _v1 = A2($elm_community$list_extra$List$Extra$getAt, nodeIndex, puzzle.aE);
 		if ((!_v1.$) && (_v1.a.$ === 1)) {
 			var data = _v1.a.a;
-			return A2($elm_community$list_extra$List$Extra$getAt, letterIndex, data.aC);
+			return A2($elm_community$list_extra$List$Extra$getAt, letterIndex, data.au);
 		} else {
 			return $elm$core$Maybe$Nothing;
 		}
@@ -5962,11 +5962,11 @@ var $author$project$Puzzle$setLetterInNodeAt = F3(
 			return $author$project$Puzzle$Given(word);
 		} else {
 			var data = node.a;
-			return $author$project$Puzzle$Anagram(
+			return $author$project$Puzzle$Unknown(
 				_Utils_update(
 					data,
 					{
-						aC: A3($elm_community$list_extra$List$Extra$setAt, letterIndex, _char, data.aC)
+						au: A3($elm_community$list_extra$List$Extra$setAt, letterIndex, _char, data.au)
 					}));
 		}
 	});
@@ -6284,7 +6284,7 @@ var $elm$core$String$cons = _String_cons;
 var $elm$core$String$fromChar = function (_char) {
 	return A2($elm$core$String$cons, _char, '');
 };
-var $author$project$Page$GameWithAnagram$viewLetterInAnagram = F5(
+var $author$project$Page$GameWithAnagram$viewLetterInUnknown = F5(
 	function (toMsg, data, nodeIndex, letterIndex, _char) {
 		var isSelected = _Utils_eq(
 			data.w,
@@ -6327,7 +6327,7 @@ var $author$project$Page$GameWithAnagram$viewNode = F4(
 						$elm$html$Html$text(word)
 					]));
 		} else {
-			var anagramData = node.a;
+			var unknownData = node.a;
 			return A2(
 				$elm$html$Html$div,
 				_List_fromArray(
@@ -6336,8 +6336,8 @@ var $author$project$Page$GameWithAnagram$viewNode = F4(
 					]),
 				A2(
 					$elm$core$List$indexedMap,
-					A3($author$project$Page$GameWithAnagram$viewLetterInAnagram, toMsg, data, nodeIndex),
-					anagramData.aC));
+					A3($author$project$Page$GameWithAnagram$viewLetterInUnknown, toMsg, data, nodeIndex),
+					unknownData.au));
 		}
 	});
 var $author$project$Page$GameWithAnagram$viewPuzzle = F2(
@@ -6370,10 +6370,10 @@ var $author$project$Page$GameWithAnagram$view = F2(
 								$author$project$Page$GameWithAnagram$viewModeButton(toMsg)
 							]))
 					]),
-				an: 'SEQ (Anagram)'
+				ao: 'SEQ (Anagram)'
 			};
 		} else {
-			return {R: _List_Nil, an: 'SEQ'};
+			return {R: _List_Nil, ao: 'SEQ'};
 		}
 	});
 var $author$project$Page$GameWithBlanks$ClickMode = {$: 2};
@@ -6450,7 +6450,7 @@ var $author$project$Page$GameWithBlanks$viewNode = F4(
 						$elm$html$Html$text(word)
 					]));
 		} else {
-			var anagramData = node.a;
+			var unknownData = node.a;
 			return A2(
 				$elm$html$Html$div,
 				_List_fromArray(
@@ -6460,7 +6460,7 @@ var $author$project$Page$GameWithBlanks$viewNode = F4(
 				A2(
 					$elm$core$List$indexedMap,
 					A3($author$project$Page$GameWithBlanks$viewLetterInAnagram, toMsg, data, nodeIndex),
-					anagramData.aC));
+					unknownData.au));
 		}
 	});
 var $author$project$Page$GameWithBlanks$viewPuzzle = F2(
@@ -6493,10 +6493,10 @@ var $author$project$Page$GameWithBlanks$view = F2(
 								$author$project$Page$GameWithBlanks$viewModeButton(toMsg)
 							]))
 					]),
-				an: 'SEQ (Blanks)'
+				ao: 'SEQ (Blanks)'
 			};
 		} else {
-			return {R: _List_Nil, an: 'SEQ'};
+			return {R: _List_Nil, ao: 'SEQ'};
 		}
 	});
 var $author$project$Page$Oops$view = {
@@ -6504,7 +6504,7 @@ var $author$project$Page$Oops$view = {
 		[
 			$elm$html$Html$text('Oops, something broke. Please try again later.')
 		]),
-	an: 'Oops'
+	ao: 'Oops'
 };
 var $author$project$Main$view = function (model) {
 	switch (model.$) {
@@ -6520,7 +6520,7 @@ var $author$project$Main$view = function (model) {
 };
 var $author$project$Main$main = $elm$browser$Browser$document(
 	{
-		aB: $author$project$Main$init,
+		aC: $author$project$Main$init,
 		aJ: function (_v0) {
 			return $elm$core$Platform$Sub$none;
 		},
