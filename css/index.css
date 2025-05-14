@@ -97,6 +97,20 @@ body {
   border-radius: 2px;
   color: #444;
   width: 29px;
+  caret-color: transparent;
+}
+
+.puzzle-with-blanks__letter:focus {
+  border: 1px solid #444;
+  outline: 2px solid #444
+}
+
+.puzzle-with-blanks__letter::selection {
+  background: transparent;
+}
+
+.puzzle-with-blanks__letter::-moz-selection {
+  background: transparent;
 }
 
 .puzzle-with-blanks__letter--blank-0 {
