@@ -5241,6 +5241,14 @@ var $author$project$Puzzle$allPuzzles = _List_fromArray(
 		$author$project$Puzzle$Puzzle(
 		_List_fromArray(
 			[
+				$author$project$Puzzle$Given('graphite'),
+				$author$project$Puzzle$anagramFromWord('pencil'),
+				$author$project$Puzzle$Given('sketch'),
+				$author$project$Puzzle$anagramFromWord('improv')
+			])),
+		$author$project$Puzzle$Puzzle(
+		_List_fromArray(
+			[
 				$author$project$Puzzle$Given('seed'),
 				$author$project$Puzzle$Given('sapling'),
 				$author$project$Puzzle$anagramFromWord('tree'),
@@ -5254,14 +5262,6 @@ var $author$project$Puzzle$allPuzzles = _List_fromArray(
 				$author$project$Puzzle$Given('iron'),
 				$author$project$Puzzle$anagramFromWord('fold'),
 				$author$project$Puzzle$Given('poker')
-			])),
-		$author$project$Puzzle$Puzzle(
-		_List_fromArray(
-			[
-				$author$project$Puzzle$Given('graphite'),
-				$author$project$Puzzle$anagramFromWord('pencil'),
-				$author$project$Puzzle$Given('sketch'),
-				$author$project$Puzzle$anagramFromWord('improv')
 			]))
 	]);
 var $elm$core$List$drop = F2(
