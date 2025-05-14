@@ -519,11 +519,11 @@ function _Debug_crash_UNUSED(identifier, fact1, fact2, fact3, fact4)
 
 function _Debug_regionToString(region)
 {
-	if (region.N.A === region.U.A)
+	if (region.O.A === region.V.A)
 	{
-		return 'on line ' + region.N.A;
+		return 'on line ' + region.O.A;
 	}
-	return 'on lines ' + region.N.A + ' through ' + region.U.A;
+	return 'on lines ' + region.O.A + ' through ' + region.V.A;
 }
 
 
@@ -1857,9 +1857,9 @@ var _Platform_worker = F4(function(impl, flagDecoder, debugMetadata, args)
 	return _Platform_initialize(
 		flagDecoder,
 		args,
-		impl.aC,
-		impl.aK,
-		impl.aJ,
+		impl.aD,
+		impl.aM,
+		impl.aL,
 		function() { return function() {} }
 	);
 });
@@ -2720,8 +2720,8 @@ var _VirtualDom_mapEventRecord = F2(function(func, record)
 {
 	return {
 		o: func(record.o),
-		O: record.O,
-		L: record.L
+		P: record.P,
+		M: record.M
 	}
 });
 
@@ -2990,10 +2990,10 @@ function _VirtualDom_makeCallback(eventNode, initialHandler)
 
 		var value = result.a;
 		var message = !tag ? value : tag < 3 ? value.a : value.o;
-		var stopPropagation = tag == 1 ? value.b : tag == 3 && value.O;
+		var stopPropagation = tag == 1 ? value.b : tag == 3 && value.P;
 		var currentEventNode = (
 			stopPropagation && event.stopPropagation(),
-			(tag == 2 ? value.b : tag == 3 && value.L) && event.preventDefault(),
+			(tag == 2 ? value.b : tag == 3 && value.M) && event.preventDefault(),
 			eventNode
 		);
 		var tagger;
@@ -3943,11 +3943,11 @@ var _Browser_element = _Debugger_element || F4(function(impl, flagDecoder, debug
 	return _Platform_initialize(
 		flagDecoder,
 		args,
-		impl.aC,
-		impl.aK,
-		impl.aJ,
+		impl.aD,
+		impl.aM,
+		impl.aL,
 		function(sendToApp, initialModel) {
-			var view = impl.aL;
+			var view = impl.aN;
 			/**/
 			var domNode = args['node'];
 			//*/
@@ -3979,12 +3979,12 @@ var _Browser_document = _Debugger_document || F4(function(impl, flagDecoder, deb
 	return _Platform_initialize(
 		flagDecoder,
 		args,
-		impl.aC,
-		impl.aK,
-		impl.aJ,
+		impl.aD,
+		impl.aM,
+		impl.aL,
 		function(sendToApp, initialModel) {
-			var divertHrefToApp = impl.M && impl.M(sendToApp)
-			var view = impl.aL;
+			var divertHrefToApp = impl.N && impl.N(sendToApp)
+			var view = impl.aN;
 			var title = _VirtualDom_doc.title;
 			var bodyNode = _VirtualDom_doc.body;
 			var currNode = _VirtualDom_virtualize(bodyNode);
@@ -3992,7 +3992,7 @@ var _Browser_document = _Debugger_document || F4(function(impl, flagDecoder, deb
 			{
 				_VirtualDom_divertHrefToApp = divertHrefToApp;
 				var doc = view(model);
-				var nextNode = _VirtualDom_node('body')(_List_Nil)(doc.R);
+				var nextNode = _VirtualDom_node('body')(_List_Nil)(doc.S);
 				var patches = _VirtualDom_diff(currNode, nextNode);
 				bodyNode = _VirtualDom_applyPatches(bodyNode, currNode, patches, sendToApp);
 				currNode = nextNode;
@@ -4053,12 +4053,12 @@ function _Browser_makeAnimator(model, draw)
 
 function _Browser_application(impl)
 {
-	var onUrlChange = impl.aF;
-	var onUrlRequest = impl.aG;
+	var onUrlChange = impl.aG;
+	var onUrlRequest = impl.aH;
 	var key = function() { key.a(onUrlChange(_Browser_getUrl())); };
 
 	return _Browser_document({
-		M: function(sendToApp)
+		N: function(sendToApp)
 		{
 			key.a = sendToApp;
 			_Browser_window.addEventListener('popstate', key);
@@ -4074,9 +4074,9 @@ function _Browser_application(impl)
 					var next = $elm$url$Url$fromString(href).a;
 					sendToApp(onUrlRequest(
 						(next
-							&& curr.ag === next.ag
-							&& curr.Y === next.Y
-							&& curr.ad.a === next.ad.a
+							&& curr.ah === next.ah
+							&& curr.Z === next.Z
+							&& curr.ae.a === next.ae.a
 						)
 							? $elm$browser$Browser$Internal(next)
 							: $elm$browser$Browser$External(href)
@@ -4084,13 +4084,13 @@ function _Browser_application(impl)
 				}
 			});
 		},
-		aC: function(flags)
+		aD: function(flags)
 		{
-			return A3(impl.aC, flags, _Browser_getUrl(), key);
+			return A3(impl.aD, flags, _Browser_getUrl(), key);
 		},
-		aL: impl.aL,
-		aK: impl.aK,
-		aJ: impl.aJ
+		aN: impl.aN,
+		aM: impl.aM,
+		aL: impl.aL
 	});
 }
 
@@ -4156,17 +4156,17 @@ var _Browser_decodeEvent = F2(function(decoder, event)
 function _Browser_visibilityInfo()
 {
 	return (typeof _VirtualDom_doc.hidden !== 'undefined')
-		? { aA: 'hidden', aw: 'visibilitychange' }
+		? { aB: 'hidden', ax: 'visibilitychange' }
 		:
 	(typeof _VirtualDom_doc.mozHidden !== 'undefined')
-		? { aA: 'mozHidden', aw: 'mozvisibilitychange' }
+		? { aB: 'mozHidden', ax: 'mozvisibilitychange' }
 		:
 	(typeof _VirtualDom_doc.msHidden !== 'undefined')
-		? { aA: 'msHidden', aw: 'msvisibilitychange' }
+		? { aB: 'msHidden', ax: 'msvisibilitychange' }
 		:
 	(typeof _VirtualDom_doc.webkitHidden !== 'undefined')
-		? { aA: 'webkitHidden', aw: 'webkitvisibilitychange' }
-		: { aA: 'hidden', aw: 'visibilitychange' };
+		? { aB: 'webkitHidden', ax: 'webkitvisibilitychange' }
+		: { aB: 'hidden', ax: 'visibilitychange' };
 }
 
 
@@ -4247,12 +4247,12 @@ var _Browser_call = F2(function(functionName, id)
 function _Browser_getViewport()
 {
 	return {
-		ak: _Browser_getScene(),
+		al: _Browser_getScene(),
 		ap: {
 			ar: _Browser_window.pageXOffset,
 			as: _Browser_window.pageYOffset,
 			aq: _Browser_doc.documentElement.clientWidth,
-			X: _Browser_doc.documentElement.clientHeight
+			Y: _Browser_doc.documentElement.clientHeight
 		}
 	};
 }
@@ -4263,7 +4263,7 @@ function _Browser_getScene()
 	var elem = _Browser_doc.documentElement;
 	return {
 		aq: Math.max(body.scrollWidth, body.offsetWidth, elem.scrollWidth, elem.offsetWidth, elem.clientWidth),
-		X: Math.max(body.scrollHeight, body.offsetHeight, elem.scrollHeight, elem.offsetHeight, elem.clientHeight)
+		Y: Math.max(body.scrollHeight, body.offsetHeight, elem.scrollHeight, elem.offsetHeight, elem.clientHeight)
 	};
 }
 
@@ -4286,15 +4286,15 @@ function _Browser_getViewportOf(id)
 	return _Browser_withNode(id, function(node)
 	{
 		return {
-			ak: {
+			al: {
 				aq: node.scrollWidth,
-				X: node.scrollHeight
+				Y: node.scrollHeight
 			},
 			ap: {
 				ar: node.scrollLeft,
 				as: node.scrollTop,
 				aq: node.clientWidth,
-				X: node.clientHeight
+				Y: node.clientHeight
 			}
 		};
 	});
@@ -4324,18 +4324,18 @@ function _Browser_getElement(id)
 		var x = _Browser_window.pageXOffset;
 		var y = _Browser_window.pageYOffset;
 		return {
-			ak: _Browser_getScene(),
+			al: _Browser_getScene(),
 			ap: {
 				ar: x,
 				as: y,
 				aq: _Browser_doc.documentElement.clientWidth,
-				X: _Browser_doc.documentElement.clientHeight
+				Y: _Browser_doc.documentElement.clientHeight
 			},
-			ay: {
+			az: {
 				ar: x + rect.left,
 				as: y + rect.top,
 				aq: rect.width,
-				X: rect.height
+				Y: rect.height
 			}
 		};
 	});
@@ -4912,7 +4912,7 @@ var $elm$url$Url$Http = 0;
 var $elm$url$Url$Https = 1;
 var $elm$url$Url$Url = F6(
 	function (protocol, host, port_, path, query, fragment) {
-		return {W: fragment, Y: host, ab: path, ad: port_, ag: protocol, ah: query};
+		return {X: fragment, Z: host, ac: path, ae: port_, ah: protocol, ai: query};
 	});
 var $elm$core$String$contains = _String_contains;
 var $elm$core$String$length = _String_length;
@@ -5198,6 +5198,12 @@ var $author$project$Main$GameWithAnagram = function (a) {
 var $author$project$Main$GameWithAnagramMsg = function (a) {
 	return {$: 0, a: a};
 };
+var $author$project$Main$GameWithBlanks = function (a) {
+	return {$: 1, a: a};
+};
+var $author$project$Main$GameWithBlanksMsg = function (a) {
+	return {$: 1, a: a};
+};
 var $author$project$Main$Oops = {$: 2};
 var $elm$json$Json$Decode$decodeValue = _Json_run;
 var $author$project$Page$GameWithAnagram$Default = function (a) {
@@ -5208,11 +5214,32 @@ var $author$project$Puzzle$Given = function (a) {
 	return {$: 0, a: a};
 };
 var $author$project$Puzzle$Puzzle = function (nodes) {
-	return {aE: nodes};
+	return {aF: nodes};
 };
 var $author$project$Puzzle$Unknown = function (a) {
 	return {$: 1, a: a};
 };
+var $elm$core$List$repeatHelp = F3(
+	function (result, n, value) {
+		repeatHelp:
+		while (true) {
+			if (n <= 0) {
+				return result;
+			} else {
+				var $temp$result = A2($elm$core$List$cons, value, result),
+					$temp$n = n - 1,
+					$temp$value = value;
+				result = $temp$result;
+				n = $temp$n;
+				value = $temp$value;
+				continue repeatHelp;
+			}
+		}
+	});
+var $elm$core$List$repeat = F2(
+	function (n, value) {
+		return A3($elm$core$List$repeatHelp, _List_Nil, n, value);
+	});
 var $elm$core$String$foldr = _String_foldr;
 var $elm$core$String$toList = function (string) {
 	return A3($elm$core$String$foldr, $elm$core$List$cons, _List_Nil, string);
@@ -5221,7 +5248,11 @@ var $author$project$Puzzle$anagramFromWord = function (word) {
 	return $author$project$Puzzle$Unknown(
 		{
 			au: $elm$core$String$toList(word),
-			al: word
+			aw: A2(
+				$elm$core$List$repeat,
+				$elm$core$String$length(word),
+				$elm$core$Maybe$Nothing),
+			aK: word
 		});
 };
 var $author$project$Puzzle$allPuzzles = _List_fromArray(
@@ -5346,7 +5377,7 @@ var $author$project$Puzzle$allLetters = function (puzzle) {
 				}
 			}),
 		_List_Nil,
-		puzzle.aE);
+		puzzle.aF);
 };
 var $elm$random$Random$Generator = $elm$core$Basics$identity;
 var $elm$random$Random$map = F2(
@@ -5623,7 +5654,7 @@ var $author$project$Puzzle$shuffle = function (puzzle) {
 						var data = node.a;
 						var _v2 = A2(
 							$elm_community$list_extra$List$Extra$splitAt,
-							$elm$core$String$length(data.al),
+							$elm$core$String$length(data.aK),
 							remainingLetters);
 						var newLetters = _v2.a;
 						var rest = _v2.b;
@@ -5654,9 +5685,9 @@ var $author$project$Puzzle$shuffle = function (puzzle) {
 				$elm$core$List$foldl,
 				step,
 				_Utils_Tuple2(shuffledLetters, _List_Nil),
-				puzzle.aE);
+				puzzle.aF);
 			var finalNodes = _v0.b;
-			return {aE: finalNodes};
+			return {aF: finalNodes};
 		},
 		$elm_community$random_extra$Random$List$shuffle(
 			$author$project$Puzzle$allLetters(puzzle)));
@@ -5735,42 +5766,6 @@ var $author$project$Page$GameWithAnagram$init = function (encodedModel) {
 		},
 		A2($elm$json$Json$Decode$decodeValue, $author$project$Page$GameWithAnagram$decoder, encodedModel));
 };
-var $elm$core$Platform$Cmd$map = _Platform_map;
-var $author$project$Main$mapUpdate = F3(
-	function (toModel, toMsg, _v0) {
-		var innerModel = _v0.a;
-		var innerCmd = _v0.b;
-		return _Utils_Tuple2(
-			toModel(innerModel),
-			A2($elm$core$Platform$Cmd$map, toMsg, innerCmd));
-	});
-var $elm$core$Result$withDefault = F2(
-	function (def, result) {
-		if (!result.$) {
-			var a = result.a;
-			return a;
-		} else {
-			return def;
-		}
-	});
-var $author$project$Main$init = function (_v0) {
-	var encodedGameModel = _v0.H;
-	return A2(
-		$elm$core$Result$withDefault,
-		_Utils_Tuple2($author$project$Main$Oops, $elm$core$Platform$Cmd$none),
-		A2(
-			$elm$core$Result$map,
-			A2($author$project$Main$mapUpdate, $author$project$Main$GameWithAnagram, $author$project$Main$GameWithAnagramMsg),
-			$author$project$Page$GameWithAnagram$init(encodedGameModel)));
-};
-var $elm$core$Platform$Sub$batch = _Platform_batch;
-var $elm$core$Platform$Sub$none = $elm$core$Platform$Sub$batch(_List_Nil);
-var $author$project$Main$GameWithBlanks = function (a) {
-	return {$: 1, a: a};
-};
-var $author$project$Main$GameWithBlanksMsg = function (a) {
-	return {$: 1, a: a};
-};
 var $author$project$Page$GameWithBlanks$Default = function (a) {
 	return {$: 0, a: a};
 };
@@ -5778,7 +5773,7 @@ var $author$project$Page$GameWithBlanks$fromPuzzleIndex = function (puzzleIndex)
 	return A2(
 		$elm$core$Maybe$map,
 		function (puzzle) {
-			return {B: puzzle, G: puzzleIndex, w: $elm$core$Maybe$Nothing};
+			return {B: puzzle, G: puzzleIndex};
 		},
 		A2(
 			$elm$core$Maybe$map,
@@ -5815,6 +5810,50 @@ var $author$project$Page$GameWithBlanks$init = function (encodedModel) {
 		},
 		A2($elm$json$Json$Decode$decodeValue, $author$project$Page$GameWithBlanks$decoder, encodedModel));
 };
+var $elm$core$Platform$Cmd$map = _Platform_map;
+var $author$project$Main$mapUpdate = F3(
+	function (toModel, toMsg, _v0) {
+		var innerModel = _v0.a;
+		var innerCmd = _v0.b;
+		return _Utils_Tuple2(
+			toModel(innerModel),
+			A2($elm$core$Platform$Cmd$map, toMsg, innerCmd));
+	});
+var $elm$core$Result$withDefault = F2(
+	function (def, result) {
+		if (!result.$) {
+			var a = result.a;
+			return a;
+		} else {
+			return def;
+		}
+	});
+var $author$project$Main$init = function (_v0) {
+	var encodedGameModel = _v0.H;
+	var mode = _v0.K;
+	switch (mode) {
+		case 0:
+			return A2(
+				$elm$core$Result$withDefault,
+				_Utils_Tuple2($author$project$Main$Oops, $elm$core$Platform$Cmd$none),
+				A2(
+					$elm$core$Result$map,
+					A2($author$project$Main$mapUpdate, $author$project$Main$GameWithAnagram, $author$project$Main$GameWithAnagramMsg),
+					$author$project$Page$GameWithAnagram$init(encodedGameModel)));
+		case 1:
+			return A2(
+				$elm$core$Result$withDefault,
+				_Utils_Tuple2($author$project$Main$Oops, $elm$core$Platform$Cmd$none),
+				A2(
+					$elm$core$Result$map,
+					A2($author$project$Main$mapUpdate, $author$project$Main$GameWithBlanks, $author$project$Main$GameWithBlanksMsg),
+					$author$project$Page$GameWithBlanks$init(encodedGameModel)));
+		default:
+			return _Utils_Tuple2($author$project$Main$Oops, $elm$core$Platform$Cmd$none);
+	}
+};
+var $elm$core$Platform$Sub$batch = _Platform_batch;
+var $elm$core$Platform$Sub$none = $elm$core$Platform$Sub$batch(_List_Nil);
 var $author$project$Main$transition = function (_v0) {
 	var model = _v0.a;
 	var cmd = _v0.b;
@@ -5914,7 +5953,7 @@ var $author$project$Puzzle$getLetterAt = F2(
 	function (_v0, puzzle) {
 		var nodeIndex = _v0.a;
 		var letterIndex = _v0.b;
-		var _v1 = A2($elm_community$list_extra$List$Extra$getAt, nodeIndex, puzzle.aE);
+		var _v1 = A2($elm_community$list_extra$List$Extra$getAt, nodeIndex, puzzle.aF);
 		if ((!_v1.$) && (_v1.a.$ === 1)) {
 			var data = _v1.a.a;
 			return A2($elm_community$list_extra$List$Extra$getAt, letterIndex, data.au);
@@ -5977,14 +6016,14 @@ var $author$project$Puzzle$setLetterAt = F3(
 		return _Utils_update(
 			puzzle,
 			{
-				aE: A3(
+				aF: A3(
 					$elm_community$list_extra$List$Extra$updateAt,
 					nodeIndex,
 					A2(
 						$author$project$Puzzle$setLetterInNodeAt,
 						_Utils_Tuple2(nodeIndex, letterIndex),
 						_char),
-					puzzle.aE)
+					puzzle.aF)
 			});
 	});
 var $author$project$Puzzle$swapLetters = F3(
@@ -6114,22 +6153,59 @@ var $author$project$Page$GameWithBlanks$nextPuzzle = function (data) {
 				$elm$core$List$length($author$project$Puzzle$allPuzzles),
 				data.G + 1)));
 };
-var $author$project$Page$GameWithBlanks$selectOrSwap = F2(
-	function (position, data) {
-		var _v0 = data.w;
-		if (_v0.$ === 1) {
+var $author$project$Puzzle$setBlankInNodeAt = F3(
+	function (_v0, maybeChar, node) {
+		var nodeIndex = _v0.a;
+		var letterIndex = _v0.b;
+		if (!node.$) {
+			var word = node.a;
+			return $author$project$Puzzle$Given(word);
+		} else {
+			var data = node.a;
+			return $author$project$Puzzle$Unknown(
+				_Utils_update(
+					data,
+					{
+						aw: A3($elm_community$list_extra$List$Extra$setAt, letterIndex, maybeChar, data.aw)
+					}));
+		}
+	});
+var $author$project$Puzzle$setBlank = F3(
+	function (_v0, maybeChar, puzzle) {
+		var nodeIndex = _v0.a;
+		var letterIndex = _v0.b;
+		return _Utils_update(
+			puzzle,
+			{
+				aF: A3(
+					$elm_community$list_extra$List$Extra$updateAt,
+					nodeIndex,
+					A2(
+						$author$project$Puzzle$setBlankInNodeAt,
+						_Utils_Tuple2(nodeIndex, letterIndex),
+						maybeChar),
+					puzzle.aF)
+			});
+	});
+var $author$project$Page$GameWithBlanks$setBlank = F3(
+	function (position, rawInput, data) {
+		var _v0 = $elm$core$String$toList(rawInput);
+		if (_v0.b && (!_v0.b.b)) {
+			var letter = _v0.a;
 			return _Utils_update(
 				data,
 				{
-					w: $elm$core$Maybe$Just(position)
+					B: A3(
+						$author$project$Puzzle$setBlank,
+						position,
+						$elm$core$Maybe$Just(letter),
+						data.B)
 				});
 		} else {
-			var prevPosition = _v0.a;
 			return _Utils_update(
 				data,
 				{
-					B: A3($author$project$Puzzle$swapLetters, prevPosition, position, data.B),
-					w: $elm$core$Maybe$Nothing
+					B: A3($author$project$Puzzle$setBlank, position, $elm$core$Maybe$Nothing, data.B)
 				});
 		}
 	});
@@ -6147,15 +6223,17 @@ var $author$project$Page$GameWithBlanks$update = F2(
 		if (!_v0.b.$) {
 			switch (_v0.a.$) {
 				case 0:
-					var position = _v0.a.a;
+					var _v1 = _v0.a;
+					var position = _v1.a;
+					var rawInput = _v1.b;
 					var data = _v0.b.a;
 					return $elm$core$Result$Ok(
 						_Utils_Tuple2(
 							$author$project$Page$GameWithBlanks$Default(
-								A2($author$project$Page$GameWithBlanks$selectOrSwap, position, data)),
+								A3($author$project$Page$GameWithBlanks$setBlank, position, rawInput, data)),
 							$elm$core$Platform$Cmd$none));
 				case 1:
-					var _v1 = _v0.a;
+					var _v2 = _v0.a;
 					var data = _v0.b.a;
 					return A2(
 						$elm$core$Result$map,
@@ -6169,7 +6247,7 @@ var $author$project$Page$GameWithBlanks$update = F2(
 							},
 							$author$project$Page$GameWithBlanks$nextPuzzle(data)));
 				default:
-					var _v2 = _v0.a;
+					var _v3 = _v0.a;
 					return $elm$core$Result$Ok(
 						_Utils_Tuple2(
 							$author$project$Page$GameWithBlanks$Exiting(
@@ -6351,14 +6429,14 @@ var $author$project$Page$GameWithAnagram$viewPuzzle = F2(
 			A2(
 				$elm$core$List$indexedMap,
 				A2($author$project$Page$GameWithAnagram$viewNode, toMsg, data),
-				data.B.aE));
+				data.B.aF));
 	});
 var $author$project$Page$GameWithAnagram$view = F2(
 	function (toMsg, model) {
 		if (!model.$) {
 			var data = model.a;
 			return {
-				R: _List_fromArray(
+				S: _List_fromArray(
 					[
 						A2($author$project$Page$GameWithAnagram$viewPuzzle, toMsg, data),
 						A2(
@@ -6373,7 +6451,7 @@ var $author$project$Page$GameWithAnagram$view = F2(
 				ao: 'SEQ (Anagram)'
 			};
 		} else {
-			return {R: _List_Nil, ao: 'SEQ'};
+			return {S: _List_Nil, ao: 'SEQ'};
 		}
 	});
 var $author$project$Page$GameWithBlanks$ClickMode = {$: 2};
@@ -6404,36 +6482,195 @@ var $author$project$Page$GameWithBlanks$viewNextButton = function (toMsg) {
 				$elm$html$Html$text('Next')
 			]));
 };
-var $author$project$Page$GameWithBlanks$ClickLetter = function (a) {
-	return {$: 0, a: a};
+var $author$project$Page$GameWithBlanks$InputLetter = F2(
+	function (a, b) {
+		return {$: 0, a: a, b: b};
+	});
+var $elm_community$list_extra$List$Extra$findIndexHelp = F3(
+	function (index, predicate, list) {
+		findIndexHelp:
+		while (true) {
+			if (!list.b) {
+				return $elm$core$Maybe$Nothing;
+			} else {
+				var x = list.a;
+				var xs = list.b;
+				if (predicate(x)) {
+					return $elm$core$Maybe$Just(index);
+				} else {
+					var $temp$index = index + 1,
+						$temp$predicate = predicate,
+						$temp$list = xs;
+					index = $temp$index;
+					predicate = $temp$predicate;
+					list = $temp$list;
+					continue findIndexHelp;
+				}
+			}
+		}
+	});
+var $elm_community$list_extra$List$Extra$findIndex = $elm_community$list_extra$List$Extra$findIndexHelp(0);
+var $elm$html$Html$input = _VirtualDom_node('input');
+var $elm$html$Html$Attributes$maxlength = function (n) {
+	return A2(
+		_VirtualDom_attribute,
+		'maxlength',
+		$elm$core$String$fromInt(n));
 };
-var $author$project$Page$GameWithBlanks$viewLetterInAnagram = F5(
-	function (toMsg, data, nodeIndex, letterIndex, _char) {
-		var isSelected = _Utils_eq(
-			data.w,
-			$elm$core$Maybe$Just(
-				_Utils_Tuple2(nodeIndex, letterIndex)));
-		var ifSelectedAttributes = isSelected ? _List_fromArray(
-			[
-				$elm$html$Html$Attributes$class('puzzle__letter--selected')
-			]) : _List_Nil;
-		var attributes = _List_fromArray(
-			[
-				$elm$html$Html$Attributes$class('puzzle__letter'),
-				$elm$html$Html$Events$onClick(
-				toMsg(
-					$author$project$Page$GameWithBlanks$ClickLetter(
-						_Utils_Tuple2(nodeIndex, letterIndex))))
-			]);
+var $elm$html$Html$Events$alwaysStop = function (x) {
+	return _Utils_Tuple2(x, true);
+};
+var $elm$virtual_dom$VirtualDom$MayStopPropagation = function (a) {
+	return {$: 1, a: a};
+};
+var $elm$html$Html$Events$stopPropagationOn = F2(
+	function (event, decoder) {
 		return A2(
-			$elm$html$Html$button,
-			_Utils_ap(attributes, ifSelectedAttributes),
+			$elm$virtual_dom$VirtualDom$on,
+			event,
+			$elm$virtual_dom$VirtualDom$MayStopPropagation(decoder));
+	});
+var $elm$json$Json$Decode$at = F2(
+	function (fields, decoder) {
+		return A3($elm$core$List$foldr, $elm$json$Json$Decode$field, decoder, fields);
+	});
+var $elm$json$Json$Decode$string = _Json_decodeString;
+var $elm$html$Html$Events$targetValue = A2(
+	$elm$json$Json$Decode$at,
+	_List_fromArray(
+		['target', 'value']),
+	$elm$json$Json$Decode$string);
+var $elm$html$Html$Events$onInput = function (tagger) {
+	return A2(
+		$elm$html$Html$Events$stopPropagationOn,
+		'input',
+		A2(
+			$elm$json$Json$Decode$map,
+			$elm$html$Html$Events$alwaysStop,
+			A2($elm$json$Json$Decode$map, tagger, $elm$html$Html$Events$targetValue)));
+};
+var $elm$core$List$any = F2(
+	function (isOkay, list) {
+		any:
+		while (true) {
+			if (!list.b) {
+				return false;
+			} else {
+				var x = list.a;
+				var xs = list.b;
+				if (isOkay(x)) {
+					return true;
+				} else {
+					var $temp$isOkay = isOkay,
+						$temp$list = xs;
+					isOkay = $temp$isOkay;
+					list = $temp$list;
+					continue any;
+				}
+			}
+		}
+	});
+var $elm$core$List$member = F2(
+	function (x, xs) {
+		return A2(
+			$elm$core$List$any,
+			function (a) {
+				return _Utils_eq(a, x);
+			},
+			xs);
+	});
+var $elm_community$list_extra$List$Extra$uniqueHelp = F4(
+	function (f, existing, remaining, accumulator) {
+		uniqueHelp:
+		while (true) {
+			if (!remaining.b) {
+				return $elm$core$List$reverse(accumulator);
+			} else {
+				var first = remaining.a;
+				var rest = remaining.b;
+				var computedFirst = f(first);
+				if (A2($elm$core$List$member, computedFirst, existing)) {
+					var $temp$f = f,
+						$temp$existing = existing,
+						$temp$remaining = rest,
+						$temp$accumulator = accumulator;
+					f = $temp$f;
+					existing = $temp$existing;
+					remaining = $temp$remaining;
+					accumulator = $temp$accumulator;
+					continue uniqueHelp;
+				} else {
+					var $temp$f = f,
+						$temp$existing = A2($elm$core$List$cons, computedFirst, existing),
+						$temp$remaining = rest,
+						$temp$accumulator = A2($elm$core$List$cons, first, accumulator);
+					f = $temp$f;
+					existing = $temp$existing;
+					remaining = $temp$remaining;
+					accumulator = $temp$accumulator;
+					continue uniqueHelp;
+				}
+			}
+		}
+	});
+var $elm_community$list_extra$List$Extra$unique = function (list) {
+	return A4($elm_community$list_extra$List$Extra$uniqueHelp, $elm$core$Basics$identity, _List_Nil, list, _List_Nil);
+};
+var $elm$html$Html$Attributes$value = $elm$html$Html$Attributes$stringProperty('value');
+var $author$project$Page$GameWithBlanks$viewLetterInUnknown = F5(
+	function (toMsg, data, nodeIndex, letterIndex, _v0) {
+		var solutionLetter = _v0.a;
+		var blankValue = _v0.b;
+		var _v1 = function (generator) {
+			return A2(
+				$elm$random$Random$step,
+				generator,
+				$elm$random$Random$initialSeed(0));
+		}(
+			$elm_community$random_extra$Random$List$shuffle(
+				$elm_community$list_extra$List$Extra$unique(
+					$author$project$Puzzle$allLetters(data.B))));
+		var lettersUniqueShuffled = _v1.a;
+		var classIndex = A2(
+			$elm$core$Maybe$withDefault,
+			0,
+			A2(
+				$elm_community$list_extra$List$Extra$findIndex,
+				function (letter) {
+					return _Utils_eq(letter, solutionLetter);
+				},
+				lettersUniqueShuffled));
+		return A2(
+			$elm$html$Html$input,
+			_List_fromArray(
+				[
+					$elm$html$Html$Attributes$class('puzzle-with-blanks__letter'),
+					$elm$html$Html$Attributes$class(
+					'puzzle-with-blanks__letter--blank-' + $elm$core$String$fromInt(classIndex)),
+					$elm$html$Html$Attributes$maxlength(1),
+					$elm$html$Html$Attributes$value(
+					A2(
+						$elm$core$Maybe$withDefault,
+						'',
+						A2($elm$core$Maybe$map, $elm$core$String$fromChar, blankValue))),
+					$elm$html$Html$Events$onInput(
+					A2(
+						$elm$core$Basics$composeR,
+						$author$project$Page$GameWithBlanks$InputLetter(
+							_Utils_Tuple2(nodeIndex, letterIndex)),
+						toMsg))
+				]),
 			_List_fromArray(
 				[
 					$elm$html$Html$text(
-					$elm$core$String$fromChar(_char))
+					$elm$core$String$fromChar(solutionLetter))
 				]));
 	});
+var $elm$core$Tuple$pair = F2(
+	function (a, b) {
+		return _Utils_Tuple2(a, b);
+	});
+var $elm_community$list_extra$List$Extra$zip = $elm$core$List$map2($elm$core$Tuple$pair);
 var $author$project$Page$GameWithBlanks$viewNode = F4(
 	function (toMsg, data, nodeIndex, node) {
 		if (!node.$) {
@@ -6442,8 +6679,8 @@ var $author$project$Page$GameWithBlanks$viewNode = F4(
 				$elm$html$Html$div,
 				_List_fromArray(
 					[
-						$elm$html$Html$Attributes$class('puzzle__node'),
-						$elm$html$Html$Attributes$class('puzzle__node--given')
+						$elm$html$Html$Attributes$class('puzzle-with-blanks__node'),
+						$elm$html$Html$Attributes$class('puzzle-with-blanks__node--given')
 					]),
 				_List_fromArray(
 					[
@@ -6451,16 +6688,19 @@ var $author$project$Page$GameWithBlanks$viewNode = F4(
 					]));
 		} else {
 			var unknownData = node.a;
+			var solutionLetters = $elm$core$String$toList(unknownData.aK);
+			var blankValues = unknownData.aw;
+			var lettersAndBlanks = A2($elm_community$list_extra$List$Extra$zip, solutionLetters, blankValues);
 			return A2(
 				$elm$html$Html$div,
 				_List_fromArray(
 					[
-						$elm$html$Html$Attributes$class('puzzle__node')
+						$elm$html$Html$Attributes$class('puzzle-with-blanks__node')
 					]),
 				A2(
 					$elm$core$List$indexedMap,
-					A3($author$project$Page$GameWithBlanks$viewLetterInAnagram, toMsg, data, nodeIndex),
-					unknownData.au));
+					A3($author$project$Page$GameWithBlanks$viewLetterInUnknown, toMsg, data, nodeIndex),
+					lettersAndBlanks));
 		}
 	});
 var $author$project$Page$GameWithBlanks$viewPuzzle = F2(
@@ -6469,19 +6709,19 @@ var $author$project$Page$GameWithBlanks$viewPuzzle = F2(
 			$elm$html$Html$div,
 			_List_fromArray(
 				[
-					$elm$html$Html$Attributes$class('puzzle')
+					$elm$html$Html$Attributes$class('puzzle-with-blanks')
 				]),
 			A2(
 				$elm$core$List$indexedMap,
 				A2($author$project$Page$GameWithBlanks$viewNode, toMsg, data),
-				data.B.aE));
+				data.B.aF));
 	});
 var $author$project$Page$GameWithBlanks$view = F2(
 	function (toMsg, model) {
 		if (!model.$) {
 			var data = model.a;
 			return {
-				R: _List_fromArray(
+				S: _List_fromArray(
 					[
 						A2($author$project$Page$GameWithBlanks$viewPuzzle, toMsg, data),
 						A2(
@@ -6496,11 +6736,11 @@ var $author$project$Page$GameWithBlanks$view = F2(
 				ao: 'SEQ (Blanks)'
 			};
 		} else {
-			return {R: _List_Nil, ao: 'SEQ'};
+			return {S: _List_Nil, ao: 'SEQ'};
 		}
 	});
 var $author$project$Page$Oops$view = {
-	R: _List_fromArray(
+	S: _List_fromArray(
 		[
 			$elm$html$Html$text('Oops, something broke. Please try again later.')
 		]),
@@ -6520,18 +6760,23 @@ var $author$project$Main$view = function (model) {
 };
 var $author$project$Main$main = $elm$browser$Browser$document(
 	{
-		aC: $author$project$Main$init,
-		aJ: function (_v0) {
+		aD: $author$project$Main$init,
+		aL: function (_v0) {
 			return $elm$core$Platform$Sub$none;
 		},
-		aK: $author$project$Main$update,
-		aL: $author$project$Main$view
+		aM: $author$project$Main$update,
+		aN: $author$project$Main$view
 	});
 _Platform_export({'Main':{'init':$author$project$Main$main(
 	A2(
 		$elm$json$Json$Decode$andThen,
-		function (encodedGameModel) {
-			return $elm$json$Json$Decode$succeed(
-				{H: encodedGameModel});
+		function (mode) {
+			return A2(
+				$elm$json$Json$Decode$andThen,
+				function (encodedGameModel) {
+					return $elm$json$Json$Decode$succeed(
+						{H: encodedGameModel, K: mode});
+				},
+				A2($elm$json$Json$Decode$field, 'encodedGameModel', $elm$json$Json$Decode$value));
 		},
-		A2($elm$json$Json$Decode$field, 'encodedGameModel', $elm$json$Json$Decode$value)))(0)}});}(this));
+		A2($elm$json$Json$Decode$field, 'mode', $elm$json$Json$Decode$int)))(0)}});}(this));
