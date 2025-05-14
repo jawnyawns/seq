@@ -5261,7 +5261,7 @@ var $author$project$Puzzle$allPuzzles = _List_fromArray(
 				$author$project$Puzzle$Given('graphite'),
 				$author$project$Puzzle$anagramFromWord('pencil'),
 				$author$project$Puzzle$Given('sketch'),
-				$author$project$Puzzle$anagramFromWord('likeness')
+				$author$project$Puzzle$anagramFromWord('improv')
 			]))
 	]);
 var $elm$core$List$drop = F2(
