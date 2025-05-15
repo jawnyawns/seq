@@ -5364,7 +5364,7 @@ var $elm$core$Maybe$map = F2(
 			return $elm$core$Maybe$Nothing;
 		}
 	});
-var $author$project$Puzzle$allLetters = function (puzzle) {
+var $author$project$Puzzle$allUnknownLetters = function (puzzle) {
 	return A3(
 		$elm$core$List$foldl,
 		F2(
@@ -5690,7 +5690,7 @@ var $author$project$Puzzle$shuffle = function (puzzle) {
 			return {aF: finalNodes};
 		},
 		$elm_community$random_extra$Random$List$shuffle(
-			$author$project$Puzzle$allLetters(puzzle)));
+			$author$project$Puzzle$allUnknownLetters(puzzle)));
 };
 var $author$project$Page$GameWithAnagram$fromPuzzleIndex = function (puzzleIndex) {
 	return A2(
@@ -6756,6 +6756,26 @@ var $author$project$Page$GameWithBlanks$onKeyDown = function (toMsg) {
 		'keydown',
 		A2($elm$json$Json$Decode$map, toMsg, $elm$html$Html$Events$keyCode));
 };
+var $elm_community$list_extra$List$Extra$count = function (predicate) {
+	return A2(
+		$elm$core$List$foldl,
+		F2(
+			function (x, acc) {
+				return predicate(x) ? (acc + 1) : acc;
+			}),
+		0);
+};
+var $elm$core$List$filter = F2(
+	function (isGood, list) {
+		return A3(
+			$elm$core$List$foldr,
+			F2(
+				function (x, xs) {
+					return isGood(x) ? A2($elm$core$List$cons, x, xs) : xs;
+				}),
+			_List_Nil,
+			list);
+	});
 var $elm$core$List$any = F2(
 	function (isOkay, list) {
 		any:
@@ -6823,11 +6843,48 @@ var $elm_community$list_extra$List$Extra$uniqueHelp = F4(
 var $elm_community$list_extra$List$Extra$unique = function (list) {
 	return A4($elm_community$list_extra$List$Extra$uniqueHelp, $elm$core$Basics$identity, _List_Nil, list, _List_Nil);
 };
+var $author$project$Puzzle$repeatedUnknownLetters = function (puzzle) {
+	return $elm_community$list_extra$List$Extra$unique(
+		A2(
+			$elm$core$List$filter,
+			function (letter) {
+				return A2(
+					$elm_community$list_extra$List$Extra$count,
+					$elm$core$Basics$eq(letter),
+					$author$project$Puzzle$allUnknownLetters(puzzle)) > 1;
+			},
+			$author$project$Puzzle$allUnknownLetters(puzzle)));
+};
 var $elm$html$Html$Attributes$value = $elm$html$Html$Attributes$stringProperty('value');
 var $author$project$Page$GameWithBlanks$viewLetterInUnknown = F5(
 	function (toMsg, data, nodeIndex, letterIndex, _v0) {
 		var solutionLetter = _v0.a;
 		var blankValue = _v0.b;
+		var attributes = _List_fromArray(
+			[
+				$elm$html$Html$Attributes$class('puzzle-with-blanks__letter'),
+				$elm$html$Html$Attributes$id(
+				$author$project$Page$GameWithBlanks$idOfInputForBlank(
+					_Utils_Tuple2(nodeIndex, letterIndex))),
+				$elm$html$Html$Attributes$maxlength(2),
+				$elm$html$Html$Attributes$value(
+				A2(
+					$elm$core$Maybe$withDefault,
+					'',
+					A2($elm$core$Maybe$map, $elm$core$String$fromChar, blankValue))),
+				$elm$html$Html$Events$onInput(
+				A2(
+					$elm$core$Basics$composeR,
+					$author$project$Page$GameWithBlanks$InputBlank(
+						_Utils_Tuple2(nodeIndex, letterIndex)),
+					toMsg)),
+				$author$project$Page$GameWithBlanks$onKeyDown(
+				A2(
+					$elm$core$Basics$composeR,
+					$author$project$Page$GameWithBlanks$KeyDownBlank(
+						_Utils_Tuple2(nodeIndex, letterIndex)),
+					toMsg))
+			]);
 		var _v1 = function (generator) {
 			return A2(
 				$elm$random$Random$step,
@@ -6835,47 +6892,27 @@ var $author$project$Page$GameWithBlanks$viewLetterInUnknown = F5(
 				$elm$random$Random$initialSeed(0));
 		}(
 			$elm_community$random_extra$Random$List$shuffle(
-				$elm_community$list_extra$List$Extra$unique(
-					$author$project$Puzzle$allLetters(data.B))));
-		var lettersUniqueShuffled = _v1.a;
-		var classIndex = A2(
-			$elm$core$Maybe$withDefault,
-			0,
-			A2(
-				$elm_community$list_extra$List$Extra$findIndex,
-				function (letter) {
-					return _Utils_eq(letter, solutionLetter);
-				},
-				lettersUniqueShuffled));
+				$author$project$Puzzle$repeatedUnknownLetters(data.B)));
+		var repeatedLetters = _v1.a;
+		var repeatedLetter = A2(
+			$elm_community$list_extra$List$Extra$findIndex,
+			$elm$core$Basics$eq(solutionLetter),
+			repeatedLetters);
+		var attributesIfRepeated = function () {
+			if (!repeatedLetter.$) {
+				var index = repeatedLetter.a;
+				return _List_fromArray(
+					[
+						$elm$html$Html$Attributes$class(
+						'puzzle-with-blanks__letter--blank-' + $elm$core$String$fromInt(index))
+					]);
+			} else {
+				return _List_Nil;
+			}
+		}();
 		return A2(
 			$elm$html$Html$input,
-			_List_fromArray(
-				[
-					$elm$html$Html$Attributes$class('puzzle-with-blanks__letter'),
-					$elm$html$Html$Attributes$class(
-					'puzzle-with-blanks__letter--blank-' + $elm$core$String$fromInt(classIndex)),
-					$elm$html$Html$Attributes$id(
-					$author$project$Page$GameWithBlanks$idOfInputForBlank(
-						_Utils_Tuple2(nodeIndex, letterIndex))),
-					$elm$html$Html$Attributes$maxlength(2),
-					$elm$html$Html$Attributes$value(
-					A2(
-						$elm$core$Maybe$withDefault,
-						'',
-						A2($elm$core$Maybe$map, $elm$core$String$fromChar, blankValue))),
-					$elm$html$Html$Events$onInput(
-					A2(
-						$elm$core$Basics$composeR,
-						$author$project$Page$GameWithBlanks$InputBlank(
-							_Utils_Tuple2(nodeIndex, letterIndex)),
-						toMsg)),
-					$author$project$Page$GameWithBlanks$onKeyDown(
-					A2(
-						$elm$core$Basics$composeR,
-						$author$project$Page$GameWithBlanks$KeyDownBlank(
-							_Utils_Tuple2(nodeIndex, letterIndex)),
-						toMsg))
-				]),
+			_Utils_ap(attributes, attributesIfRepeated),
 			_List_fromArray(
 				[
 					$elm$html$Html$text(
