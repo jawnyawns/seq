@@ -6127,6 +6127,21 @@ var $author$project$Page$GameWithBlanks$Exiting = function (a) {
 	return {$: 1, a: a};
 };
 var $author$project$Page$GameWithBlanks$InvalidState = 1;
+var $author$project$Page$GameWithBlanks$encode = function (model) {
+	if (!model.$) {
+		var data = model.a;
+		return $elm$json$Json$Encode$object(
+			_List_fromArray(
+				[
+					_Utils_Tuple2(
+					'puzzleIndex',
+					$elm$json$Json$Encode$int(data.G))
+				]));
+	} else {
+		var value = model.a;
+		return value;
+	}
+};
 var $author$project$Page$GameWithBlanks$NoOp = {$: 4};
 var $elm$core$Basics$composeL = F3(
 	function (g, f, x) {
@@ -6152,60 +6167,10 @@ var $elm$core$Task$attempt = F2(
 					task)));
 	});
 var $elm$browser$Browser$Dom$focus = _Browser_call('focus');
-var $elm$core$Basics$ge = _Utils_ge;
 var $author$project$Page$GameWithBlanks$idOfInputForBlank = function (_v0) {
 	var nodeIndex = _v0.a;
 	var letterIndex = _v0.b;
 	return 'input-for-blank-' + ($elm$core$String$fromInt(nodeIndex) + ('-' + $elm$core$String$fromInt(letterIndex)));
-};
-var $author$project$Page$GameWithBlanks$focusPrevBlank = function (_v0) {
-	var nodeIndex = _v0.a;
-	var letterIndex = _v0.b;
-	return ((letterIndex - 1) >= 0) ? A2(
-		$elm$core$Task$attempt,
-		function (_v1) {
-			return $author$project$Page$GameWithBlanks$NoOp;
-		},
-		$elm$browser$Browser$Dom$focus(
-			$author$project$Page$GameWithBlanks$idOfInputForBlank(
-				_Utils_Tuple2(nodeIndex, letterIndex - 1)))) : $elm$core$Platform$Cmd$none;
-};
-var $author$project$Page$GameWithBlanks$keyCodeBackspace = 8;
-var $author$project$Page$GameWithBlanks$deleteBlank = F3(
-	function (position, keyCode, data) {
-		return _Utils_eq(keyCode, $author$project$Page$GameWithBlanks$keyCodeBackspace) ? $elm$core$Result$Ok(
-			_Utils_Tuple2(
-				$author$project$Page$GameWithBlanks$Default(data),
-				$author$project$Page$GameWithBlanks$focusPrevBlank(position))) : $elm$core$Result$Ok(
-			_Utils_Tuple2(
-				$author$project$Page$GameWithBlanks$Default(data),
-				$elm$core$Platform$Cmd$none));
-	});
-var $author$project$Page$GameWithBlanks$encode = function (model) {
-	if (!model.$) {
-		var data = model.a;
-		return $elm$json$Json$Encode$object(
-			_List_fromArray(
-				[
-					_Utils_Tuple2(
-					'puzzleIndex',
-					$elm$json$Json$Encode$int(data.G))
-				]));
-	} else {
-		var value = model.a;
-		return value;
-	}
-};
-var $author$project$Page$GameWithBlanks$InvalidPuzzleIndex = 0;
-var $author$project$Page$GameWithBlanks$nextPuzzle = function (data) {
-	return A2(
-		$elm$core$Result$fromMaybe,
-		0,
-		$author$project$Page$GameWithBlanks$fromPuzzleIndex(
-			A2(
-				$elm$core$Basics$modBy,
-				$elm$core$List$length($author$project$Puzzle$allPuzzles),
-				data.G + 1)));
 };
 var $author$project$Puzzle$lengthOfNode = F2(
 	function (nodeIndex, puzzle) {
@@ -6245,6 +6210,49 @@ var $author$project$Page$GameWithBlanks$focusNextBlank = F2(
 			return $elm$core$Platform$Cmd$none;
 		}
 	});
+var $elm$core$Basics$ge = _Utils_ge;
+var $author$project$Page$GameWithBlanks$focusPrevBlank = function (_v0) {
+	var nodeIndex = _v0.a;
+	var letterIndex = _v0.b;
+	return ((letterIndex - 1) >= 0) ? A2(
+		$elm$core$Task$attempt,
+		function (_v1) {
+			return $author$project$Page$GameWithBlanks$NoOp;
+		},
+		$elm$browser$Browser$Dom$focus(
+			$author$project$Page$GameWithBlanks$idOfInputForBlank(
+				_Utils_Tuple2(nodeIndex, letterIndex - 1)))) : $elm$core$Platform$Cmd$none;
+};
+var $author$project$Page$GameWithBlanks$keyCodeBackspace = 8;
+var $author$project$Page$GameWithBlanks$keyCodeLeft = 37;
+var $author$project$Page$GameWithBlanks$keyCodeRight = 39;
+var $author$project$Page$GameWithBlanks$keyDownBlank = F3(
+	function (position, keyCode, data) {
+		return _Utils_eq(keyCode, $author$project$Page$GameWithBlanks$keyCodeBackspace) ? $elm$core$Result$Ok(
+			_Utils_Tuple2(
+				$author$project$Page$GameWithBlanks$Default(data),
+				$author$project$Page$GameWithBlanks$focusPrevBlank(position))) : (_Utils_eq(keyCode, $author$project$Page$GameWithBlanks$keyCodeLeft) ? $elm$core$Result$Ok(
+			_Utils_Tuple2(
+				$author$project$Page$GameWithBlanks$Default(data),
+				$author$project$Page$GameWithBlanks$focusPrevBlank(position))) : (_Utils_eq(keyCode, $author$project$Page$GameWithBlanks$keyCodeRight) ? $elm$core$Result$Ok(
+			_Utils_Tuple2(
+				$author$project$Page$GameWithBlanks$Default(data),
+				A2($author$project$Page$GameWithBlanks$focusNextBlank, position, data))) : $elm$core$Result$Ok(
+			_Utils_Tuple2(
+				$author$project$Page$GameWithBlanks$Default(data),
+				$elm$core$Platform$Cmd$none))));
+	});
+var $author$project$Page$GameWithBlanks$InvalidPuzzleIndex = 0;
+var $author$project$Page$GameWithBlanks$nextPuzzle = function (data) {
+	return A2(
+		$elm$core$Result$fromMaybe,
+		0,
+		$author$project$Page$GameWithBlanks$fromPuzzleIndex(
+			A2(
+				$elm$core$Basics$modBy,
+				$elm$core$List$length($author$project$Puzzle$allPuzzles),
+				data.G + 1)));
+};
 var $author$project$Puzzle$getBlank = F2(
 	function (_v0, puzzle) {
 		var nodeIndex = _v0.a;
@@ -6404,7 +6412,7 @@ var $author$project$Page$GameWithBlanks$update = F2(
 						var position = _v2.a;
 						var keyCode = _v2.b;
 						var data = _v0.b.a;
-						return A3($author$project$Page$GameWithBlanks$deleteBlank, position, keyCode, data);
+						return A3($author$project$Page$GameWithBlanks$keyDownBlank, position, keyCode, data);
 					} else {
 						break _v0$5;
 					}
