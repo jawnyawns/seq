@@ -216,3 +216,179 @@ body {
 .puzzle-with-blanks__letter--blank-25 {
   background: #ff66ff;
 }
+
+/* GAME WITH GIVEN BLANKS */
+
+.puzzle-with-given-blanks {
+  padding: 8px;
+  max-width: 600px;
+  width: 100%;
+}
+
+.puzzle-with-given-blanks__node {
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+  padding: 16px 0;
+}
+
+.puzzle-with-given-blanks__node--given {
+  font-weight: 700;
+  cursor: default;
+  font-size: 18px;
+  color: #555;
+  font-family: 'IBM Plex Mono', monospace;
+  padding: 8px 0;
+}
+
+.puzzle-with-given-blanks__letter {
+  text-align: center;
+  text-transform: uppercase;
+  user-select: none;
+  font-family: 'IBM Plex Mono', monospace;
+  font-weight: 400;
+  cursor: pointer;
+  font-size: 24px;
+  padding: 3px 5px;
+  border: 2px solid #999;
+  background: #fff;
+  border-radius: 2px;
+  color: #444;
+  width: 29px;
+  caret-color: transparent;
+}
+
+.puzzle-with-given-blanks__letter--given {
+  text-align: center;
+  text-transform: uppercase;
+  user-select: none;
+  font-family: 'IBM Plex Mono', monospace;
+  font-weight: 400;
+  cursor: pointer;
+  font-size: 24px;
+  padding: 3px 5px;
+  border: 2px solid #999;
+  background: none;
+  border: none;
+  color: #555;
+  width: 29px;
+  caret-color: transparent;
+  font-weight: bold;
+}
+
+.puzzle-with-given-blanks__letter:focus {
+  border: 1px solid #444;
+  outline: 2px solid #444
+}
+
+.puzzle-with-given-blanks__letter::selection {
+  background: transparent;
+}
+
+.puzzle-with-given-blanks__letter::-moz-selection {
+  background: transparent;
+}
+
+.puzzle-with-given-blanks__letter--blank-0 {
+  background: #ff9999;
+}
+
+.puzzle-with-given-blanks__letter--blank-1 {
+  background: #ffb380;
+}
+
+.puzzle-with-given-blanks__letter--blank-2 {
+  background: #ffd480;
+}
+
+.puzzle-with-given-blanks__letter--blank-3 {
+  background: #ffff99;
+}
+
+.puzzle-with-given-blanks__letter--blank-4 {
+  background: #ccff99;
+}
+
+.puzzle-with-given-blanks__letter--blank-5 {
+  background: #99ff99;
+}
+
+.puzzle-with-given-blanks__letter--blank-6 {
+  background: #99ffcc;
+}
+
+.puzzle-with-given-blanks__letter--blank-7 {
+  background: #99ffff;
+}
+
+.puzzle-with-given-blanks__letter--blank-8 {
+  background: #99ccff;
+}
+
+.puzzle-with-given-blanks__letter--blank-9 {
+  background: #9999ff;
+}
+
+.puzzle-with-given-blanks__letter--blank-10 {
+  background: #cc99ff;
+}
+
+.puzzle-with-given-blanks__letter--blank-11 {
+  background: #ff99ff;
+}
+
+.puzzle-with-given-blanks__letter--blank-12 {
+  background: #ff99cc;
+}
+
+.puzzle-with-given-blanks__letter--blank-13 {
+  background: #ff6699;
+}
+
+.puzzle-with-given-blanks__letter--blank-14 {
+  background: #ff6666;
+}
+
+.puzzle-with-given-blanks__letter--blank-15 {
+  background: #ff9966;
+}
+
+.puzzle-with-given-blanks__letter--blank-16 {
+  background: #ffcc66;
+}
+
+.puzzle-with-given-blanks__letter--blank-17 {
+  background: #ffff66;
+}
+
+.puzzle-with-given-blanks__letter--blank-18 {
+  background: #ccff66;
+}
+
+.puzzle-with-given-blanks__letter--blank-19 {
+  background: #66ff99;
+}
+
+.puzzle-with-given-blanks__letter--blank-20 {
+  background: #66ffcc;
+}
+
+.puzzle-with-given-blanks__letter--blank-21 {
+  background: #66ffff;
+}
+
+.puzzle-with-given-blanks__letter--blank-22 {
+  background: #6699ff;
+}
+
+.puzzle-with-given-blanks__letter--blank-23 {
+  background: #9966ff;
+}
+
+.puzzle-with-given-blanks__letter--blank-24 {
+  background: #cc66ff;
+}
+
+.puzzle-with-given-blanks__letter--blank-25 {
+  background: #ff66ff;
+}

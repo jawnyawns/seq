@@ -5204,7 +5204,13 @@ var $author$project$Main$GameWithBlanks = function (a) {
 var $author$project$Main$GameWithBlanksMsg = function (a) {
 	return {$: 1, a: a};
 };
-var $author$project$Main$Oops = {$: 2};
+var $author$project$Main$GameWithGivenBlanks = function (a) {
+	return {$: 2, a: a};
+};
+var $author$project$Main$GameWithGivenBlanksMsg = function (a) {
+	return {$: 2, a: a};
+};
+var $author$project$Main$Oops = {$: 3};
 var $elm$json$Json$Decode$decodeValue = _Json_run;
 var $author$project$Page$GameWithAnagram$Default = function (a) {
 	return {$: 0, a: a};
@@ -5810,6 +5816,246 @@ var $author$project$Page$GameWithBlanks$init = function (encodedModel) {
 		},
 		A2($elm$json$Json$Decode$decodeValue, $author$project$Page$GameWithBlanks$decoder, encodedModel));
 };
+var $author$project$Page$GameWithGivenBlanks$Default = function (a) {
+	return {$: 0, a: a};
+};
+var $author$project$PuzzleWithGivenBlanks$GivenEntry = function (a) {
+	return {$: 0, a: a};
+};
+var $author$project$PuzzleWithGivenBlanks$UnknownEntry = function (a) {
+	return {$: 1, a: a};
+};
+var $elm$core$List$append = F2(
+	function (xs, ys) {
+		if (!ys.b) {
+			return xs;
+		} else {
+			return A3($elm$core$List$foldr, $elm$core$List$cons, ys, xs);
+		}
+	});
+var $elm$core$List$concat = function (lists) {
+	return A3($elm$core$List$foldr, $elm$core$List$append, _List_Nil, lists);
+};
+var $elm$core$List$concatMap = F2(
+	function (f, list) {
+		return $elm$core$List$concat(
+			A2($elm$core$List$map, f, list));
+	});
+var $elm$core$List$filter = F2(
+	function (isGood, list) {
+		return A3(
+			$elm$core$List$foldr,
+			F2(
+				function (x, xs) {
+					return isGood(x) ? A2($elm$core$List$cons, x, xs) : xs;
+				}),
+			_List_Nil,
+			list);
+	});
+var $author$project$PuzzleWithGivenBlanks$Given = function (a) {
+	return {$: 0, a: a};
+};
+var $author$project$PuzzleWithGivenBlanks$GivenBlank = function (a) {
+	return {$: 0, a: a};
+};
+var $author$project$PuzzleWithGivenBlanks$Unknown = function (a) {
+	return {$: 1, a: a};
+};
+var $author$project$PuzzleWithGivenBlanks$UnknownBlank = function (a) {
+	return {$: 1, a: a};
+};
+var $elm$core$List$any = F2(
+	function (isOkay, list) {
+		any:
+		while (true) {
+			if (!list.b) {
+				return false;
+			} else {
+				var x = list.a;
+				var xs = list.b;
+				if (isOkay(x)) {
+					return true;
+				} else {
+					var $temp$isOkay = isOkay,
+						$temp$list = xs;
+					isOkay = $temp$isOkay;
+					list = $temp$list;
+					continue any;
+				}
+			}
+		}
+	});
+var $elm$core$List$member = F2(
+	function (x, xs) {
+		return A2(
+			$elm$core$List$any,
+			function (a) {
+				return _Utils_eq(a, x);
+			},
+			xs);
+	});
+var $author$project$PuzzleWithGivenBlanks$nodeFromEntry = F2(
+	function (givenLetters, entry) {
+		if (!entry.$) {
+			var word = entry.a;
+			return $author$project$PuzzleWithGivenBlanks$Given(word);
+		} else {
+			var word = entry.a;
+			return $author$project$PuzzleWithGivenBlanks$Unknown(
+				{
+					aw: A2(
+						$elm$core$List$map,
+						function (_char) {
+							return A2($elm$core$List$member, _char, givenLetters) ? $author$project$PuzzleWithGivenBlanks$GivenBlank(_char) : $author$project$PuzzleWithGivenBlanks$UnknownBlank($elm$core$Maybe$Nothing);
+						},
+						$elm$core$String$toList(word)),
+					aK: word
+				});
+		}
+	});
+var $elm_community$list_extra$List$Extra$uniqueHelp = F4(
+	function (f, existing, remaining, accumulator) {
+		uniqueHelp:
+		while (true) {
+			if (!remaining.b) {
+				return $elm$core$List$reverse(accumulator);
+			} else {
+				var first = remaining.a;
+				var rest = remaining.b;
+				var computedFirst = f(first);
+				if (A2($elm$core$List$member, computedFirst, existing)) {
+					var $temp$f = f,
+						$temp$existing = existing,
+						$temp$remaining = rest,
+						$temp$accumulator = accumulator;
+					f = $temp$f;
+					existing = $temp$existing;
+					remaining = $temp$remaining;
+					accumulator = $temp$accumulator;
+					continue uniqueHelp;
+				} else {
+					var $temp$f = f,
+						$temp$existing = A2($elm$core$List$cons, computedFirst, existing),
+						$temp$remaining = rest,
+						$temp$accumulator = A2($elm$core$List$cons, first, accumulator);
+					f = $temp$f;
+					existing = $temp$existing;
+					remaining = $temp$remaining;
+					accumulator = $temp$accumulator;
+					continue uniqueHelp;
+				}
+			}
+		}
+	});
+var $elm_community$list_extra$List$Extra$unique = function (list) {
+	return A4($elm_community$list_extra$List$Extra$uniqueHelp, $elm$core$Basics$identity, _List_Nil, list, _List_Nil);
+};
+var $author$project$PuzzleWithGivenBlanks$puzzleFromEntries = function (entries) {
+	var givenLetters = $elm_community$list_extra$List$Extra$unique(
+		A2(
+			$elm$core$List$concatMap,
+			function (entry) {
+				if (!entry.$) {
+					var word = entry.a;
+					return $elm$core$String$toList(word);
+				} else {
+					return _List_Nil;
+				}
+			},
+			A2(
+				$elm$core$List$filter,
+				function (entry) {
+					if (!entry.$) {
+						return true;
+					} else {
+						return false;
+					}
+				},
+				entries)));
+	return {
+		aF: A2(
+			$elm$core$List$map,
+			$author$project$PuzzleWithGivenBlanks$nodeFromEntry(givenLetters),
+			entries)
+	};
+};
+var $author$project$PuzzleWithGivenBlanks$allPuzzles = _List_fromArray(
+	[
+		$author$project$PuzzleWithGivenBlanks$puzzleFromEntries(
+		_List_fromArray(
+			[
+				$author$project$PuzzleWithGivenBlanks$GivenEntry('book'),
+				$author$project$PuzzleWithGivenBlanks$GivenEntry('page'),
+				$author$project$PuzzleWithGivenBlanks$GivenEntry('paragraph'),
+				$author$project$PuzzleWithGivenBlanks$GivenEntry('sentence'),
+				$author$project$PuzzleWithGivenBlanks$UnknownEntry('word')
+			])),
+		$author$project$PuzzleWithGivenBlanks$puzzleFromEntries(
+		_List_fromArray(
+			[
+				$author$project$PuzzleWithGivenBlanks$GivenEntry('dawn'),
+				$author$project$PuzzleWithGivenBlanks$UnknownEntry('noon'),
+				$author$project$PuzzleWithGivenBlanks$UnknownEntry('dusk'),
+				$author$project$PuzzleWithGivenBlanks$GivenEntry('night')
+			])),
+		$author$project$PuzzleWithGivenBlanks$puzzleFromEntries(
+		_List_fromArray(
+			[
+				$author$project$PuzzleWithGivenBlanks$GivenEntry('led'),
+				$author$project$PuzzleWithGivenBlanks$UnknownEntry('pencil'),
+				$author$project$PuzzleWithGivenBlanks$GivenEntry('sketch'),
+				$author$project$PuzzleWithGivenBlanks$UnknownEntry('improv')
+			])),
+		$author$project$PuzzleWithGivenBlanks$puzzleFromEntries(
+		_List_fromArray(
+			[
+				$author$project$PuzzleWithGivenBlanks$GivenEntry('tree'),
+				$author$project$PuzzleWithGivenBlanks$UnknownEntry('leaf'),
+				$author$project$PuzzleWithGivenBlanks$GivenEntry('fruit'),
+				$author$project$PuzzleWithGivenBlanks$UnknownEntry('apple'),
+				$author$project$PuzzleWithGivenBlanks$UnknownEntry('phone')
+			])),
+		$author$project$PuzzleWithGivenBlanks$puzzleFromEntries(
+		_List_fromArray(
+			[
+				$author$project$PuzzleWithGivenBlanks$GivenEntry('iron'),
+				$author$project$PuzzleWithGivenBlanks$UnknownEntry('fold'),
+				$author$project$PuzzleWithGivenBlanks$GivenEntry('poker')
+			]))
+	]);
+var $author$project$Page$GameWithGivenBlanks$fromPuzzleIndex = function (puzzleIndex) {
+	return A2(
+		$elm$core$Maybe$map,
+		function (puzzle) {
+			return {B: puzzle, G: puzzleIndex};
+		},
+		A2($elm_community$list_extra$List$Extra$getAt, puzzleIndex, $author$project$PuzzleWithGivenBlanks$allPuzzles));
+};
+var $author$project$Page$GameWithGivenBlanks$decoder = A2(
+	$elm$json$Json$Decode$andThen,
+	function (puzzleIndex) {
+		var _v0 = $author$project$Page$GameWithGivenBlanks$fromPuzzleIndex(puzzleIndex);
+		if (!_v0.$) {
+			var data = _v0.a;
+			return $elm$json$Json$Decode$succeed(
+				$author$project$Page$GameWithGivenBlanks$Default(data));
+		} else {
+			return $elm$json$Json$Decode$fail('Invalid puzzle index');
+		}
+	},
+	A2(
+		$elm$json$Json$Decode$map,
+		$elm$core$Maybe$withDefault(0),
+		$elm$json$Json$Decode$nullable(
+			A2($elm$json$Json$Decode$field, 'puzzleIndex', $elm$json$Json$Decode$int))));
+var $author$project$Page$GameWithGivenBlanks$init = function (encodedModel) {
+	return A2(
+		$elm$core$Result$map,
+		function (model) {
+			return _Utils_Tuple2(model, $elm$core$Platform$Cmd$none);
+		},
+		A2($elm$json$Json$Decode$decodeValue, $author$project$Page$GameWithGivenBlanks$decoder, encodedModel));
+};
 var $elm$core$Platform$Cmd$map = _Platform_map;
 var $author$project$Main$mapUpdate = F3(
 	function (toModel, toMsg, _v0) {
@@ -5848,6 +6094,14 @@ var $author$project$Main$init = function (_v0) {
 					$elm$core$Result$map,
 					A2($author$project$Main$mapUpdate, $author$project$Main$GameWithBlanks, $author$project$Main$GameWithBlanksMsg),
 					$author$project$Page$GameWithBlanks$init(encodedGameModel)));
+		case 2:
+			return A2(
+				$elm$core$Result$withDefault,
+				_Utils_Tuple2($author$project$Main$Oops, $elm$core$Platform$Cmd$none),
+				A2(
+					$elm$core$Result$map,
+					A2($author$project$Main$mapUpdate, $author$project$Main$GameWithGivenBlanks, $author$project$Main$GameWithGivenBlanksMsg),
+					$author$project$Page$GameWithGivenBlanks$init(encodedGameModel)));
 		default:
 			return _Utils_Tuple2($author$project$Main$Oops, $elm$core$Platform$Cmd$none);
 	}
@@ -5873,6 +6127,20 @@ var $author$project$Main$transition = function (_v0) {
 				return _Utils_Tuple2(model, cmd);
 			}
 		case 1:
+			var gameModel = model.a;
+			if (gameModel.$ === 1) {
+				var encodedGameModel = gameModel.a;
+				return A2(
+					$elm$core$Result$withDefault,
+					_Utils_Tuple2($author$project$Main$Oops, $elm$core$Platform$Cmd$none),
+					A2(
+						$elm$core$Result$map,
+						A2($author$project$Main$mapUpdate, $author$project$Main$GameWithGivenBlanks, $author$project$Main$GameWithGivenBlanksMsg),
+						$author$project$Page$GameWithGivenBlanks$init(encodedGameModel)));
+			} else {
+				return _Utils_Tuple2(model, cmd);
+			}
+		case 2:
 			var gameModel = model.a;
 			if (gameModel.$ === 1) {
 				var encodedGameModel = gameModel.a;
@@ -6289,17 +6557,6 @@ var $elm_community$list_extra$List$Extra$last = function (items) {
 		}
 	}
 };
-var $elm$core$List$filter = F2(
-	function (isGood, list) {
-		return A3(
-			$elm$core$List$foldr,
-			F2(
-				function (x, xs) {
-					return isGood(x) ? A2($elm$core$List$cons, x, xs) : xs;
-				}),
-			_List_Nil,
-			list);
-	});
 var $author$project$Puzzle$getSolutionLetterAt = F2(
 	function (_v0, puzzle) {
 		var nodeIndex = _v0.a;
@@ -6315,17 +6572,6 @@ var $author$project$Puzzle$getSolutionLetterAt = F2(
 			return $elm$core$Maybe$Nothing;
 		}
 	});
-var $elm$core$List$append = F2(
-	function (xs, ys) {
-		if (!ys.b) {
-			return xs;
-		} else {
-			return A3($elm$core$List$foldr, $elm$core$List$cons, ys, xs);
-		}
-	});
-var $elm$core$List$concat = function (lists) {
-	return A3($elm$core$List$foldr, $elm$core$List$append, _List_Nil, lists);
-};
 var $author$project$Puzzle$getUnknownPositions = function (puzzle) {
 	return $elm$core$List$concat(
 		A2(
@@ -6541,41 +6787,470 @@ var $author$project$Page$GameWithBlanks$update = F2(
 		}
 		return $elm$core$Result$Err(1);
 	});
+var $author$project$Page$GameWithGivenBlanks$Exiting = function (a) {
+	return {$: 1, a: a};
+};
+var $author$project$Page$GameWithGivenBlanks$InvalidState = 1;
+var $author$project$Page$GameWithGivenBlanks$encode = function (model) {
+	if (!model.$) {
+		var data = model.a;
+		return $elm$json$Json$Encode$object(
+			_List_fromArray(
+				[
+					_Utils_Tuple2(
+					'puzzleIndex',
+					$elm$json$Json$Encode$int(data.G))
+				]));
+	} else {
+		var value = model.a;
+		return value;
+	}
+};
+var $author$project$Page$GameWithGivenBlanks$FocusNextBlank = F2(
+	function (a, b) {
+		return {$: 2, a: a, b: b};
+	});
+var $author$project$Page$GameWithGivenBlanks$idOfInputForBlank = function (_v0) {
+	var nodeIndex = _v0.a;
+	var letterIndex = _v0.b;
+	return 'input-for-blank-' + ($elm$core$String$fromInt(nodeIndex) + ('-' + $elm$core$String$fromInt(letterIndex)));
+};
+var $author$project$PuzzleWithGivenBlanks$lengthOfNode = F2(
+	function (nodeIndex, puzzle) {
+		var _v0 = A2($elm_community$list_extra$List$Extra$getAt, nodeIndex, puzzle.aF);
+		if (!_v0.$) {
+			var node = _v0.a;
+			if (node.$ === 1) {
+				var data = node.a;
+				return $elm$core$Maybe$Just(
+					$elm$core$String$length(data.aK));
+			} else {
+				var word = node.a;
+				return $elm$core$Maybe$Just(
+					$elm$core$String$length(word));
+			}
+		} else {
+			return $elm$core$Maybe$Nothing;
+		}
+	});
+var $author$project$Page$GameWithGivenBlanks$focusNextBlank = F2(
+	function (_v0, _v1) {
+		var nodeIndex = _v0.a;
+		var letterIndex = _v0.b;
+		var puzzle = _v1.B;
+		var _v2 = A2($author$project$PuzzleWithGivenBlanks$lengthOfNode, nodeIndex, puzzle);
+		if (!_v2.$) {
+			var maxLetters = _v2.a;
+			return (_Utils_cmp(letterIndex + 1, maxLetters) < 0) ? A2(
+				$elm$core$Task$attempt,
+				$author$project$Page$GameWithGivenBlanks$FocusNextBlank(
+					_Utils_Tuple2(nodeIndex, letterIndex + 1)),
+				$elm$browser$Browser$Dom$focus(
+					$author$project$Page$GameWithGivenBlanks$idOfInputForBlank(
+						_Utils_Tuple2(nodeIndex, letterIndex + 1)))) : $elm$core$Platform$Cmd$none;
+		} else {
+			return $elm$core$Platform$Cmd$none;
+		}
+	});
+var $author$project$Page$GameWithGivenBlanks$FocusPrevBlank = F2(
+	function (a, b) {
+		return {$: 3, a: a, b: b};
+	});
+var $author$project$Page$GameWithGivenBlanks$focusPrevBlank = function (_v0) {
+	var nodeIndex = _v0.a;
+	var letterIndex = _v0.b;
+	return ((letterIndex - 1) >= 0) ? A2(
+		$elm$core$Task$attempt,
+		$author$project$Page$GameWithGivenBlanks$FocusPrevBlank(
+			_Utils_Tuple2(nodeIndex, letterIndex - 1)),
+		$elm$browser$Browser$Dom$focus(
+			$author$project$Page$GameWithGivenBlanks$idOfInputForBlank(
+				_Utils_Tuple2(nodeIndex, letterIndex - 1)))) : $elm$core$Platform$Cmd$none;
+};
+var $author$project$Page$GameWithGivenBlanks$keyCodeBackspace = 8;
+var $author$project$Page$GameWithGivenBlanks$keyCodeLeft = 37;
+var $author$project$Page$GameWithGivenBlanks$keyCodeRight = 39;
+var $author$project$Page$GameWithGivenBlanks$keyDownBlank = F3(
+	function (position, keyCode, data) {
+		return _Utils_eq(keyCode, $author$project$Page$GameWithGivenBlanks$keyCodeBackspace) ? $elm$core$Result$Ok(
+			_Utils_Tuple2(
+				$author$project$Page$GameWithGivenBlanks$Default(data),
+				$author$project$Page$GameWithGivenBlanks$focusPrevBlank(position))) : (_Utils_eq(keyCode, $author$project$Page$GameWithGivenBlanks$keyCodeLeft) ? $elm$core$Result$Ok(
+			_Utils_Tuple2(
+				$author$project$Page$GameWithGivenBlanks$Default(data),
+				$author$project$Page$GameWithGivenBlanks$focusPrevBlank(position))) : (_Utils_eq(keyCode, $author$project$Page$GameWithGivenBlanks$keyCodeRight) ? $elm$core$Result$Ok(
+			_Utils_Tuple2(
+				$author$project$Page$GameWithGivenBlanks$Default(data),
+				A2($author$project$Page$GameWithGivenBlanks$focusNextBlank, position, data))) : $elm$core$Result$Ok(
+			_Utils_Tuple2(
+				$author$project$Page$GameWithGivenBlanks$Default(data),
+				$elm$core$Platform$Cmd$none))));
+	});
+var $author$project$Page$GameWithGivenBlanks$InvalidPuzzleIndex = 0;
+var $author$project$Page$GameWithGivenBlanks$nextPuzzle = function (data) {
+	return A2(
+		$elm$core$Result$fromMaybe,
+		0,
+		$author$project$Page$GameWithGivenBlanks$fromPuzzleIndex(
+			A2(
+				$elm$core$Basics$modBy,
+				$elm$core$List$length($author$project$PuzzleWithGivenBlanks$allPuzzles),
+				data.G + 1)));
+};
+var $author$project$PuzzleWithGivenBlanks$getBlank = F2(
+	function (_v0, puzzle) {
+		var nodeIndex = _v0.a;
+		var letterIndex = _v0.b;
+		var _v1 = A2($elm_community$list_extra$List$Extra$getAt, nodeIndex, puzzle.aF);
+		if ((!_v1.$) && (_v1.a.$ === 1)) {
+			var data = _v1.a.a;
+			return A2($elm_community$list_extra$List$Extra$getAt, letterIndex, data.aw);
+		} else {
+			return $elm$core$Maybe$Nothing;
+		}
+	});
+var $author$project$PuzzleWithGivenBlanks$getSolutionLetterAt = F2(
+	function (_v0, puzzle) {
+		var nodeIndex = _v0.a;
+		var letterIndex = _v0.b;
+		var _v1 = A2($elm_community$list_extra$List$Extra$getAt, nodeIndex, puzzle.aF);
+		if ((!_v1.$) && (_v1.a.$ === 1)) {
+			var data = _v1.a.a;
+			return A2(
+				$elm_community$list_extra$List$Extra$getAt,
+				letterIndex,
+				$elm$core$String$toList(data.aK));
+		} else {
+			return $elm$core$Maybe$Nothing;
+		}
+	});
+var $author$project$PuzzleWithGivenBlanks$getUnknownPositions = function (puzzle) {
+	return $elm$core$List$concat(
+		A2(
+			$elm$core$List$indexedMap,
+			F2(
+				function (nodeIndex, node) {
+					if (node.$ === 1) {
+						var data = node.a;
+						return A2(
+							$elm$core$List$indexedMap,
+							F2(
+								function (letterIndex, _v1) {
+									return _Utils_Tuple2(nodeIndex, letterIndex);
+								}),
+							data.aw);
+					} else {
+						return _List_Nil;
+					}
+				}),
+			puzzle.aF));
+};
+var $author$project$PuzzleWithGivenBlanks$setSingularBlank = F2(
+	function (maybeChar, blank) {
+		if (!blank.$) {
+			var _char = blank.a;
+			return $author$project$PuzzleWithGivenBlanks$GivenBlank(_char);
+		} else {
+			return $author$project$PuzzleWithGivenBlanks$UnknownBlank(maybeChar);
+		}
+	});
+var $author$project$PuzzleWithGivenBlanks$setSingularBlankInNodeAt = F3(
+	function (_v0, maybeChar, node) {
+		var nodeIndex = _v0.a;
+		var letterIndex = _v0.b;
+		if (!node.$) {
+			var word = node.a;
+			return $author$project$PuzzleWithGivenBlanks$Given(word);
+		} else {
+			var data = node.a;
+			return $author$project$PuzzleWithGivenBlanks$Unknown(
+				_Utils_update(
+					data,
+					{
+						aw: A3(
+							$elm_community$list_extra$List$Extra$updateAt,
+							letterIndex,
+							$author$project$PuzzleWithGivenBlanks$setSingularBlank(maybeChar),
+							data.aw)
+					}));
+		}
+	});
+var $author$project$PuzzleWithGivenBlanks$setSingularBlankInPuzzleAt = F3(
+	function (_v0, maybeChar, puzzle) {
+		var nodeIndex = _v0.a;
+		var letterIndex = _v0.b;
+		return _Utils_update(
+			puzzle,
+			{
+				aF: A3(
+					$elm_community$list_extra$List$Extra$updateAt,
+					nodeIndex,
+					A2(
+						$author$project$PuzzleWithGivenBlanks$setSingularBlankInNodeAt,
+						_Utils_Tuple2(nodeIndex, letterIndex),
+						maybeChar),
+					puzzle.aF)
+			});
+	});
+var $author$project$PuzzleWithGivenBlanks$setBlank = F3(
+	function (_v0, maybeChar, puzzle) {
+		var nodeIndex = _v0.a;
+		var letterIndex = _v0.b;
+		var _v1 = A2(
+			$author$project$PuzzleWithGivenBlanks$getSolutionLetterAt,
+			_Utils_Tuple2(nodeIndex, letterIndex),
+			puzzle);
+		if (!_v1.$) {
+			var solutionLetter = _v1.a;
+			var equivalentPositions = A2(
+				$elm$core$List$filter,
+				function (position) {
+					return _Utils_eq(
+						A2($author$project$PuzzleWithGivenBlanks$getSolutionLetterAt, position, puzzle),
+						$elm$core$Maybe$Just(solutionLetter));
+				},
+				$author$project$PuzzleWithGivenBlanks$getUnknownPositions(puzzle));
+			return A3(
+				$elm$core$List$foldl,
+				F2(
+					function (position, puzzleAcc) {
+						return A3($author$project$PuzzleWithGivenBlanks$setSingularBlankInPuzzleAt, position, maybeChar, puzzleAcc);
+					}),
+				puzzle,
+				equivalentPositions);
+		} else {
+			return puzzle;
+		}
+	});
+var $author$project$Page$GameWithGivenBlanks$setBlank = F3(
+	function (position, rawInput, data) {
+		var set = function (blank) {
+			return $author$project$Page$GameWithGivenBlanks$Default(
+				_Utils_update(
+					data,
+					{
+						B: A3($author$project$PuzzleWithGivenBlanks$setBlank, position, blank, data.B)
+					}));
+		};
+		var _v0 = _Utils_Tuple2(
+			$elm$core$String$toList(rawInput),
+			A2($author$project$PuzzleWithGivenBlanks$getBlank, position, data.B));
+		_v0$0:
+		while (true) {
+			_v0$2:
+			while (true) {
+				_v0$3:
+				while (true) {
+					_v0$4:
+					while (true) {
+						if (!_v0.b.$) {
+							if (_v0.a.b) {
+								if (_v0.b.a.$ === 1) {
+									if (_v0.b.a.a.$ === 1) {
+										break _v0$0;
+									} else {
+										if (_v0.a.b.b) {
+											if (!_v0.a.b.b.b) {
+												var _v2 = _v0.a;
+												var first = _v2.a;
+												var _v3 = _v2.b;
+												var second = _v3.a;
+												var _char = _v0.b.a.a.a;
+												return _Utils_eq(second, _char) ? $elm$core$Result$Ok(
+													_Utils_Tuple2(
+														set(
+															$elm$core$Maybe$Just(first)),
+														A2($author$project$Page$GameWithGivenBlanks$focusNextBlank, position, data))) : $elm$core$Result$Ok(
+													_Utils_Tuple2(
+														set(
+															$elm$core$Maybe$Just(second)),
+														A2($author$project$Page$GameWithGivenBlanks$focusNextBlank, position, data)));
+											} else {
+												break _v0$4;
+											}
+										} else {
+											break _v0$2;
+										}
+									}
+								} else {
+									if (!_v0.a.b.b) {
+										break _v0$2;
+									} else {
+										break _v0$4;
+									}
+								}
+							} else {
+								if ((_v0.b.a.$ === 1) && (_v0.b.a.a.$ === 1)) {
+									break _v0$0;
+								} else {
+									break _v0$3;
+								}
+							}
+						} else {
+							if (!_v0.a.b) {
+								break _v0$3;
+							} else {
+								break _v0$4;
+							}
+						}
+					}
+					return $elm$core$Result$Err(1);
+				}
+				return $elm$core$Result$Ok(
+					_Utils_Tuple2(
+						set($elm$core$Maybe$Nothing),
+						$elm$core$Platform$Cmd$none));
+			}
+			var _v4 = _v0.a;
+			var letter = _v4.a;
+			return $elm$core$Result$Ok(
+				_Utils_Tuple2(
+					set(
+						$elm$core$Maybe$Just(letter)),
+					A2($author$project$Page$GameWithGivenBlanks$focusNextBlank, position, data)));
+		}
+		var letters = _v0.a;
+		var _v1 = _v0.b.a.a;
+		return $elm$core$Result$Ok(
+			_Utils_Tuple2(
+				set(
+					$elm_community$list_extra$List$Extra$last(letters)),
+				A2($author$project$Page$GameWithGivenBlanks$focusNextBlank, position, data)));
+	});
+var $author$project$Page$GameWithGivenBlanks$updateStorage = function (_v0) {
+	var model = _v0.a;
+	var cmd = _v0.b;
+	return _Utils_Tuple2(
+		model,
+		$author$project$Ports$send(
+			$author$project$Page$GameWithGivenBlanks$encode(model)));
+};
+var $author$project$Page$GameWithGivenBlanks$update = F2(
+	function (msg, model) {
+		var _v0 = _Utils_Tuple2(msg, model);
+		if (!_v0.b.$) {
+			switch (_v0.a.$) {
+				case 0:
+					var _v1 = _v0.a;
+					var position = _v1.a;
+					var rawInput = _v1.b;
+					var data = _v0.b.a;
+					return A3($author$project$Page$GameWithGivenBlanks$setBlank, position, rawInput, data);
+				case 1:
+					var _v2 = _v0.a;
+					var position = _v2.a;
+					var keyCode = _v2.b;
+					var data = _v0.b.a;
+					return A3($author$project$Page$GameWithGivenBlanks$keyDownBlank, position, keyCode, data);
+				case 2:
+					var _v3 = _v0.a;
+					var position = _v3.a;
+					var result = _v3.b;
+					var data = _v0.b.a;
+					if (!result.$) {
+						return $elm$core$Result$Ok(
+							_Utils_Tuple2(
+								$author$project$Page$GameWithGivenBlanks$Default(data),
+								$elm$core$Platform$Cmd$none));
+					} else {
+						return $elm$core$Result$Ok(
+							_Utils_Tuple2(
+								$author$project$Page$GameWithGivenBlanks$Default(data),
+								A2($author$project$Page$GameWithGivenBlanks$focusNextBlank, position, data)));
+					}
+				case 3:
+					var _v5 = _v0.a;
+					var position = _v5.a;
+					var result = _v5.b;
+					var data = _v0.b.a;
+					if (!result.$) {
+						return $elm$core$Result$Ok(
+							_Utils_Tuple2(
+								$author$project$Page$GameWithGivenBlanks$Default(data),
+								$elm$core$Platform$Cmd$none));
+					} else {
+						return $elm$core$Result$Ok(
+							_Utils_Tuple2(
+								$author$project$Page$GameWithGivenBlanks$Default(data),
+								$author$project$Page$GameWithGivenBlanks$focusPrevBlank(position)));
+					}
+				case 4:
+					var _v7 = _v0.a;
+					var data = _v0.b.a;
+					return A2(
+						$elm$core$Result$map,
+						$author$project$Page$GameWithGivenBlanks$updateStorage,
+						A2(
+							$elm$core$Result$map,
+							function (okData) {
+								return _Utils_Tuple2(
+									$author$project$Page$GameWithGivenBlanks$Default(okData),
+									$elm$core$Platform$Cmd$none);
+							},
+							$author$project$Page$GameWithGivenBlanks$nextPuzzle(data)));
+				default:
+					var _v8 = _v0.a;
+					return $elm$core$Result$Ok(
+						_Utils_Tuple2(
+							$author$project$Page$GameWithGivenBlanks$Exiting(
+								$author$project$Page$GameWithGivenBlanks$encode(model)),
+							$elm$core$Platform$Cmd$none));
+			}
+		} else {
+			return $elm$core$Result$Err(1);
+		}
+	});
 var $author$project$Main$update = F2(
 	function (msg, model) {
 		var _v0 = _Utils_Tuple2(msg, model);
-		_v0$2:
+		_v0$3:
 		while (true) {
-			if (!_v0.a.$) {
-				if (!_v0.b.$) {
-					var gameMsg = _v0.a.a;
-					var gameModel = _v0.b.a;
-					return $author$project$Main$transition(
-						A2(
-							$elm$core$Result$withDefault,
-							_Utils_Tuple2($author$project$Main$Oops, $elm$core$Platform$Cmd$none),
+			switch (_v0.a.$) {
+				case 0:
+					if (!_v0.b.$) {
+						var gameMsg = _v0.a.a;
+						var gameModel = _v0.b.a;
+						return $author$project$Main$transition(
 							A2(
-								$elm$core$Result$map,
-								A2($author$project$Main$mapUpdate, $author$project$Main$GameWithAnagram, $author$project$Main$GameWithAnagramMsg),
-								A2($author$project$Page$GameWithAnagram$update, gameMsg, gameModel))));
-				} else {
-					break _v0$2;
-				}
-			} else {
-				if (_v0.b.$ === 1) {
-					var gameMsg = _v0.a.a;
-					var gameModel = _v0.b.a;
-					return $author$project$Main$transition(
-						A2(
-							$elm$core$Result$withDefault,
-							_Utils_Tuple2($author$project$Main$Oops, $elm$core$Platform$Cmd$none),
+								$elm$core$Result$withDefault,
+								_Utils_Tuple2($author$project$Main$Oops, $elm$core$Platform$Cmd$none),
+								A2(
+									$elm$core$Result$map,
+									A2($author$project$Main$mapUpdate, $author$project$Main$GameWithAnagram, $author$project$Main$GameWithAnagramMsg),
+									A2($author$project$Page$GameWithAnagram$update, gameMsg, gameModel))));
+					} else {
+						break _v0$3;
+					}
+				case 1:
+					if (_v0.b.$ === 1) {
+						var gameMsg = _v0.a.a;
+						var gameModel = _v0.b.a;
+						return $author$project$Main$transition(
 							A2(
-								$elm$core$Result$map,
-								A2($author$project$Main$mapUpdate, $author$project$Main$GameWithBlanks, $author$project$Main$GameWithBlanksMsg),
-								A2($author$project$Page$GameWithBlanks$update, gameMsg, gameModel))));
-				} else {
-					break _v0$2;
-				}
+								$elm$core$Result$withDefault,
+								_Utils_Tuple2($author$project$Main$Oops, $elm$core$Platform$Cmd$none),
+								A2(
+									$elm$core$Result$map,
+									A2($author$project$Main$mapUpdate, $author$project$Main$GameWithBlanks, $author$project$Main$GameWithBlanksMsg),
+									A2($author$project$Page$GameWithBlanks$update, gameMsg, gameModel))));
+					} else {
+						break _v0$3;
+					}
+				default:
+					if (_v0.b.$ === 2) {
+						var gameMsg = _v0.a.a;
+						var gameModel = _v0.b.a;
+						return $author$project$Main$transition(
+							A2(
+								$elm$core$Result$withDefault,
+								_Utils_Tuple2($author$project$Main$Oops, $elm$core$Platform$Cmd$none),
+								A2(
+									$elm$core$Result$map,
+									A2($author$project$Main$mapUpdate, $author$project$Main$GameWithGivenBlanks, $author$project$Main$GameWithGivenBlanksMsg),
+									A2($author$project$Page$GameWithGivenBlanks$update, gameMsg, gameModel))));
+					} else {
+						break _v0$3;
+					}
 			}
 		}
 		return _Utils_Tuple2(model, $elm$core$Platform$Cmd$none);
@@ -6853,73 +7528,6 @@ var $elm_community$list_extra$List$Extra$count = function (predicate) {
 			}),
 		0);
 };
-var $elm$core$List$any = F2(
-	function (isOkay, list) {
-		any:
-		while (true) {
-			if (!list.b) {
-				return false;
-			} else {
-				var x = list.a;
-				var xs = list.b;
-				if (isOkay(x)) {
-					return true;
-				} else {
-					var $temp$isOkay = isOkay,
-						$temp$list = xs;
-					isOkay = $temp$isOkay;
-					list = $temp$list;
-					continue any;
-				}
-			}
-		}
-	});
-var $elm$core$List$member = F2(
-	function (x, xs) {
-		return A2(
-			$elm$core$List$any,
-			function (a) {
-				return _Utils_eq(a, x);
-			},
-			xs);
-	});
-var $elm_community$list_extra$List$Extra$uniqueHelp = F4(
-	function (f, existing, remaining, accumulator) {
-		uniqueHelp:
-		while (true) {
-			if (!remaining.b) {
-				return $elm$core$List$reverse(accumulator);
-			} else {
-				var first = remaining.a;
-				var rest = remaining.b;
-				var computedFirst = f(first);
-				if (A2($elm$core$List$member, computedFirst, existing)) {
-					var $temp$f = f,
-						$temp$existing = existing,
-						$temp$remaining = rest,
-						$temp$accumulator = accumulator;
-					f = $temp$f;
-					existing = $temp$existing;
-					remaining = $temp$remaining;
-					accumulator = $temp$accumulator;
-					continue uniqueHelp;
-				} else {
-					var $temp$f = f,
-						$temp$existing = A2($elm$core$List$cons, computedFirst, existing),
-						$temp$remaining = rest,
-						$temp$accumulator = A2($elm$core$List$cons, first, accumulator);
-					f = $temp$f;
-					existing = $temp$existing;
-					remaining = $temp$remaining;
-					accumulator = $temp$accumulator;
-					continue uniqueHelp;
-				}
-			}
-		}
-	});
-var $elm_community$list_extra$List$Extra$unique = function (list) {
-	return A4($elm_community$list_extra$List$Extra$uniqueHelp, $elm$core$Basics$identity, _List_Nil, list, _List_Nil);
-};
 var $author$project$Puzzle$repeatedUnknownLetters = function (puzzle) {
 	return $elm_community$list_extra$List$Extra$unique(
 		A2(
@@ -7069,6 +7677,260 @@ var $author$project$Page$GameWithBlanks$view = F2(
 			return {S: _List_Nil, ao: 'SEQ'};
 		}
 	});
+var $author$project$Page$GameWithGivenBlanks$ClickMode = {$: 5};
+var $author$project$Page$GameWithGivenBlanks$viewModeButton = function (toMsg) {
+	return A2(
+		$elm$html$Html$button,
+		_List_fromArray(
+			[
+				$elm$html$Html$Events$onClick(
+				toMsg($author$project$Page$GameWithGivenBlanks$ClickMode))
+			]),
+		_List_fromArray(
+			[
+				$elm$html$Html$text('Mode')
+			]));
+};
+var $author$project$Page$GameWithGivenBlanks$ClickNext = {$: 4};
+var $author$project$Page$GameWithGivenBlanks$viewNextButton = function (toMsg) {
+	return A2(
+		$elm$html$Html$button,
+		_List_fromArray(
+			[
+				$elm$html$Html$Events$onClick(
+				toMsg($author$project$Page$GameWithGivenBlanks$ClickNext))
+			]),
+		_List_fromArray(
+			[
+				$elm$html$Html$text('Next')
+			]));
+};
+var $author$project$Page$GameWithGivenBlanks$viewGivenBlankInUnknown = function (_char) {
+	return A2(
+		$elm$html$Html$div,
+		_List_fromArray(
+			[
+				$elm$html$Html$Attributes$class('puzzle-with-given-blanks__letter'),
+				$elm$html$Html$Attributes$class('puzzle-with-given-blanks__letter--given')
+			]),
+		_List_fromArray(
+			[
+				$elm$html$Html$text(
+				$elm$core$String$fromChar(_char))
+			]));
+};
+var $author$project$Page$GameWithGivenBlanks$InputBlank = F2(
+	function (a, b) {
+		return {$: 0, a: a, b: b};
+	});
+var $author$project$Page$GameWithGivenBlanks$KeyDownBlank = F2(
+	function (a, b) {
+		return {$: 1, a: a, b: b};
+	});
+var $author$project$Page$GameWithGivenBlanks$onKeyDown = function (toMsg) {
+	return A2(
+		$elm$html$Html$Events$on,
+		'keydown',
+		A2($elm$json$Json$Decode$map, toMsg, $elm$html$Html$Events$keyCode));
+};
+var $author$project$PuzzleWithGivenBlanks$allGivenLetters = function (puzzle) {
+	return A3(
+		$elm$core$List$foldl,
+		F2(
+			function (node, acc) {
+				if (node.$ === 1) {
+					return acc;
+				} else {
+					var word = node.a;
+					return _Utils_ap(
+						$elm$core$String$toList(word),
+						acc);
+				}
+			}),
+		_List_Nil,
+		puzzle.aF);
+};
+var $author$project$PuzzleWithGivenBlanks$lettersFromUnknownNode = function (node) {
+	if (node.$ === 1) {
+		var data = node.a;
+		return $elm$core$String$toList(data.aK);
+	} else {
+		return _List_Nil;
+	}
+};
+var $author$project$PuzzleWithGivenBlanks$allLettersFromAllUnknownNodes = function (puzzle) {
+	return A2($elm$core$List$concatMap, $author$project$PuzzleWithGivenBlanks$lettersFromUnknownNode, puzzle.aF);
+};
+var $elm$core$Basics$not = _Basics_not;
+var $author$project$PuzzleWithGivenBlanks$repeatedLetters = function (puzzle) {
+	return $elm_community$list_extra$List$Extra$unique(
+		A2(
+			$elm$core$List$filter,
+			function (letter) {
+				return !A2(
+					$elm$core$List$member,
+					letter,
+					$author$project$PuzzleWithGivenBlanks$allGivenLetters(puzzle));
+			},
+			A2(
+				$elm$core$List$filter,
+				function (letter) {
+					return A2(
+						$elm_community$list_extra$List$Extra$count,
+						$elm$core$Basics$eq(letter),
+						$author$project$PuzzleWithGivenBlanks$allLettersFromAllUnknownNodes(puzzle)) > 1;
+				},
+				$author$project$PuzzleWithGivenBlanks$allLettersFromAllUnknownNodes(puzzle))));
+};
+var $author$project$Page$GameWithGivenBlanks$viewUnknownBlankInUnknown = F5(
+	function (toMsg, data, nodeIndex, letterIndex, _v0) {
+		var solutionLetter = _v0.a;
+		var unknownBlankValue = _v0.b;
+		var attributes = _List_fromArray(
+			[
+				$elm$html$Html$Attributes$class('puzzle-with-given-blanks__letter'),
+				$elm$html$Html$Attributes$id(
+				$author$project$Page$GameWithGivenBlanks$idOfInputForBlank(
+					_Utils_Tuple2(nodeIndex, letterIndex))),
+				$elm$html$Html$Attributes$maxlength(2),
+				$elm$html$Html$Attributes$value(
+				A2(
+					$elm$core$Maybe$withDefault,
+					'',
+					A2($elm$core$Maybe$map, $elm$core$String$fromChar, unknownBlankValue))),
+				$elm$html$Html$Events$onInput(
+				A2(
+					$elm$core$Basics$composeR,
+					$author$project$Page$GameWithGivenBlanks$InputBlank(
+						_Utils_Tuple2(nodeIndex, letterIndex)),
+					toMsg)),
+				$author$project$Page$GameWithGivenBlanks$onKeyDown(
+				A2(
+					$elm$core$Basics$composeR,
+					$author$project$Page$GameWithGivenBlanks$KeyDownBlank(
+						_Utils_Tuple2(nodeIndex, letterIndex)),
+					toMsg))
+			]);
+		var _v1 = function (generator) {
+			return A2(
+				$elm$random$Random$step,
+				generator,
+				$elm$random$Random$initialSeed(0));
+		}(
+			$elm_community$random_extra$Random$List$shuffle(
+				$author$project$PuzzleWithGivenBlanks$repeatedLetters(data.B)));
+		var repeatedLetters = _v1.a;
+		var repeatedLetter = A2(
+			$elm_community$list_extra$List$Extra$findIndex,
+			$elm$core$Basics$eq(solutionLetter),
+			repeatedLetters);
+		var attributesIfRepeated = function () {
+			if (!repeatedLetter.$) {
+				var index = repeatedLetter.a;
+				return _List_fromArray(
+					[
+						$elm$html$Html$Attributes$class(
+						'puzzle-with-given-blanks__letter--blank-' + $elm$core$String$fromInt(index))
+					]);
+			} else {
+				return _List_Nil;
+			}
+		}();
+		return A2(
+			$elm$html$Html$input,
+			_Utils_ap(attributes, attributesIfRepeated),
+			_List_fromArray(
+				[
+					$elm$html$Html$text(
+					$elm$core$String$fromChar(solutionLetter))
+				]));
+	});
+var $author$project$Page$GameWithGivenBlanks$viewBlankInUnknown = F5(
+	function (toMsg, data, nodeIndex, letterIndex, _v0) {
+		var solutionLetter = _v0.a;
+		var blank = _v0.b;
+		if (!blank.$) {
+			var _char = blank.a;
+			return $author$project$Page$GameWithGivenBlanks$viewGivenBlankInUnknown(_char);
+		} else {
+			var maybeChar = blank.a;
+			return A5(
+				$author$project$Page$GameWithGivenBlanks$viewUnknownBlankInUnknown,
+				toMsg,
+				data,
+				nodeIndex,
+				letterIndex,
+				_Utils_Tuple2(solutionLetter, maybeChar));
+		}
+	});
+var $author$project$Page$GameWithGivenBlanks$viewNode = F4(
+	function (toMsg, data, nodeIndex, node) {
+		if (!node.$) {
+			var word = node.a;
+			return A2(
+				$elm$html$Html$div,
+				_List_fromArray(
+					[
+						$elm$html$Html$Attributes$class('puzzle-with-given-blanks__node'),
+						$elm$html$Html$Attributes$class('puzzle-with-given-blanks__node--given')
+					]),
+				_List_fromArray(
+					[
+						$elm$html$Html$text(word)
+					]));
+		} else {
+			var unknownData = node.a;
+			var solutionLetters = $elm$core$String$toList(unknownData.aK);
+			var blanks = unknownData.aw;
+			var lettersAndBlanks = A2($elm_community$list_extra$List$Extra$zip, solutionLetters, blanks);
+			return A2(
+				$elm$html$Html$div,
+				_List_fromArray(
+					[
+						$elm$html$Html$Attributes$class('puzzle-with-given-blanks__node')
+					]),
+				A2(
+					$elm$core$List$indexedMap,
+					A3($author$project$Page$GameWithGivenBlanks$viewBlankInUnknown, toMsg, data, nodeIndex),
+					lettersAndBlanks));
+		}
+	});
+var $author$project$Page$GameWithGivenBlanks$viewPuzzle = F2(
+	function (toMsg, data) {
+		return A2(
+			$elm$html$Html$div,
+			_List_fromArray(
+				[
+					$elm$html$Html$Attributes$class('puzzle-with-given-blanks')
+				]),
+			A2(
+				$elm$core$List$indexedMap,
+				A2($author$project$Page$GameWithGivenBlanks$viewNode, toMsg, data),
+				data.B.aF));
+	});
+var $author$project$Page$GameWithGivenBlanks$view = F2(
+	function (toMsg, model) {
+		if (!model.$) {
+			var data = model.a;
+			return {
+				S: _List_fromArray(
+					[
+						A2($author$project$Page$GameWithGivenBlanks$viewPuzzle, toMsg, data),
+						A2(
+						$elm$html$Html$div,
+						_List_Nil,
+						_List_fromArray(
+							[
+								$author$project$Page$GameWithGivenBlanks$viewNextButton(toMsg),
+								$author$project$Page$GameWithGivenBlanks$viewModeButton(toMsg)
+							]))
+					]),
+				ao: 'SEQ (Given Blanks)'
+			};
+		} else {
+			return {S: _List_Nil, ao: 'SEQ'};
+		}
+	});
 var $author$project$Page$Oops$view = {
 	S: _List_fromArray(
 		[
@@ -7084,6 +7946,9 @@ var $author$project$Main$view = function (model) {
 		case 1:
 			var gameModel = model.a;
 			return A2($author$project$Page$GameWithBlanks$view, $author$project$Main$GameWithBlanksMsg, gameModel);
+		case 2:
+			var gameModel = model.a;
+			return A2($author$project$Page$GameWithGivenBlanks$view, $author$project$Main$GameWithGivenBlanksMsg, gameModel);
 		default:
 			return $author$project$Page$Oops$view;
 	}
