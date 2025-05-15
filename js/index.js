@@ -5244,7 +5244,7 @@ var $elm$core$String$foldr = _String_foldr;
 var $elm$core$String$toList = function (string) {
 	return A3($elm$core$String$foldr, $elm$core$List$cons, _List_Nil, string);
 };
-var $author$project$Puzzle$anagramFromWord = function (word) {
+var $author$project$Puzzle$unknownFromWord = function (word) {
 	return $author$project$Puzzle$Unknown(
 		{
 			au: $elm$core$String$toList(word),
@@ -5264,39 +5264,39 @@ var $author$project$Puzzle$allPuzzles = _List_fromArray(
 				$author$project$Puzzle$Given('page'),
 				$author$project$Puzzle$Given('paragraph'),
 				$author$project$Puzzle$Given('sentence'),
-				$author$project$Puzzle$anagramFromWord('word')
+				$author$project$Puzzle$unknownFromWord('word')
 			])),
 		$author$project$Puzzle$Puzzle(
 		_List_fromArray(
 			[
 				$author$project$Puzzle$Given('dawn'),
-				$author$project$Puzzle$anagramFromWord('noon'),
-				$author$project$Puzzle$anagramFromWord('dusk'),
+				$author$project$Puzzle$unknownFromWord('noon'),
+				$author$project$Puzzle$unknownFromWord('dusk'),
 				$author$project$Puzzle$Given('night')
 			])),
 		$author$project$Puzzle$Puzzle(
 		_List_fromArray(
 			[
 				$author$project$Puzzle$Given('graphite'),
-				$author$project$Puzzle$anagramFromWord('pencil'),
+				$author$project$Puzzle$unknownFromWord('pencil'),
 				$author$project$Puzzle$Given('sketch'),
-				$author$project$Puzzle$anagramFromWord('improv')
+				$author$project$Puzzle$unknownFromWord('improv')
 			])),
 		$author$project$Puzzle$Puzzle(
 		_List_fromArray(
 			[
 				$author$project$Puzzle$Given('seed'),
 				$author$project$Puzzle$Given('sapling'),
-				$author$project$Puzzle$anagramFromWord('tree'),
+				$author$project$Puzzle$unknownFromWord('tree'),
 				$author$project$Puzzle$Given('fruit'),
-				$author$project$Puzzle$anagramFromWord('apple'),
-				$author$project$Puzzle$anagramFromWord('laptop')
+				$author$project$Puzzle$unknownFromWord('apple'),
+				$author$project$Puzzle$unknownFromWord('laptop')
 			])),
 		$author$project$Puzzle$Puzzle(
 		_List_fromArray(
 			[
 				$author$project$Puzzle$Given('iron'),
-				$author$project$Puzzle$anagramFromWord('fold'),
+				$author$project$Puzzle$unknownFromWord('fold'),
 				$author$project$Puzzle$Given('poker')
 			]))
 	]);
