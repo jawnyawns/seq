@@ -6289,7 +6289,65 @@ var $elm_community$list_extra$List$Extra$last = function (items) {
 		}
 	}
 };
-var $author$project$Puzzle$setBlankInNodeAt = F3(
+var $elm$core$List$filter = F2(
+	function (isGood, list) {
+		return A3(
+			$elm$core$List$foldr,
+			F2(
+				function (x, xs) {
+					return isGood(x) ? A2($elm$core$List$cons, x, xs) : xs;
+				}),
+			_List_Nil,
+			list);
+	});
+var $author$project$Puzzle$getSolutionLetterAt = F2(
+	function (_v0, puzzle) {
+		var nodeIndex = _v0.a;
+		var letterIndex = _v0.b;
+		var _v1 = A2($elm_community$list_extra$List$Extra$getAt, nodeIndex, puzzle.aF);
+		if ((!_v1.$) && (_v1.a.$ === 1)) {
+			var data = _v1.a.a;
+			return A2(
+				$elm_community$list_extra$List$Extra$getAt,
+				letterIndex,
+				$elm$core$String$toList(data.aK));
+		} else {
+			return $elm$core$Maybe$Nothing;
+		}
+	});
+var $elm$core$List$append = F2(
+	function (xs, ys) {
+		if (!ys.b) {
+			return xs;
+		} else {
+			return A3($elm$core$List$foldr, $elm$core$List$cons, ys, xs);
+		}
+	});
+var $elm$core$List$concat = function (lists) {
+	return A3($elm$core$List$foldr, $elm$core$List$append, _List_Nil, lists);
+};
+var $author$project$Puzzle$getUnknownPositions = function (puzzle) {
+	return $elm$core$List$concat(
+		A2(
+			$elm$core$List$indexedMap,
+			F2(
+				function (nodeIndex, node) {
+					if (node.$ === 1) {
+						var data = node.a;
+						return A2(
+							$elm$core$List$indexedMap,
+							F2(
+								function (letterIndex, _v1) {
+									return _Utils_Tuple2(nodeIndex, letterIndex);
+								}),
+							data.aw);
+					} else {
+						return _List_Nil;
+					}
+				}),
+			puzzle.aF));
+};
+var $author$project$Puzzle$setSingularBlankInNodeAt = F3(
 	function (_v0, maybeChar, node) {
 		var nodeIndex = _v0.a;
 		var letterIndex = _v0.b;
@@ -6306,7 +6364,7 @@ var $author$project$Puzzle$setBlankInNodeAt = F3(
 					}));
 		}
 	});
-var $author$project$Puzzle$setBlank = F3(
+var $author$project$Puzzle$setSingularBlank = F3(
 	function (_v0, maybeChar, puzzle) {
 		var nodeIndex = _v0.a;
 		var letterIndex = _v0.b;
@@ -6317,11 +6375,41 @@ var $author$project$Puzzle$setBlank = F3(
 					$elm_community$list_extra$List$Extra$updateAt,
 					nodeIndex,
 					A2(
-						$author$project$Puzzle$setBlankInNodeAt,
+						$author$project$Puzzle$setSingularBlankInNodeAt,
 						_Utils_Tuple2(nodeIndex, letterIndex),
 						maybeChar),
 					puzzle.aF)
 			});
+	});
+var $author$project$Puzzle$setBlank = F3(
+	function (_v0, maybeChar, puzzle) {
+		var nodeIndex = _v0.a;
+		var letterIndex = _v0.b;
+		var _v1 = A2(
+			$author$project$Puzzle$getSolutionLetterAt,
+			_Utils_Tuple2(nodeIndex, letterIndex),
+			puzzle);
+		if (!_v1.$) {
+			var solutionLetter = _v1.a;
+			var equivalentPositions = A2(
+				$elm$core$List$filter,
+				function (position) {
+					return _Utils_eq(
+						A2($author$project$Puzzle$getSolutionLetterAt, position, puzzle),
+						$elm$core$Maybe$Just(solutionLetter));
+				},
+				$author$project$Puzzle$getUnknownPositions(puzzle));
+			return A3(
+				$elm$core$List$foldl,
+				F2(
+					function (position, puzzleAcc) {
+						return A3($author$project$Puzzle$setSingularBlank, position, maybeChar, puzzleAcc);
+					}),
+				puzzle,
+				equivalentPositions);
+		} else {
+			return puzzle;
+		}
 	});
 var $author$project$Page$GameWithBlanks$setBlank = F3(
 	function (position, rawInput, data) {
@@ -6765,17 +6853,6 @@ var $elm_community$list_extra$List$Extra$count = function (predicate) {
 			}),
 		0);
 };
-var $elm$core$List$filter = F2(
-	function (isGood, list) {
-		return A3(
-			$elm$core$List$foldr,
-			F2(
-				function (x, xs) {
-					return isGood(x) ? A2($elm$core$List$cons, x, xs) : xs;
-				}),
-			_List_Nil,
-			list);
-	});
 var $elm$core$List$any = F2(
 	function (isOkay, list) {
 		any:
