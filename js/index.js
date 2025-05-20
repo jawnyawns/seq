@@ -5304,6 +5304,57 @@ var $author$project$Puzzle$allPuzzles = _List_fromArray(
 				$author$project$Puzzle$Given('iron'),
 				$author$project$Puzzle$unknownFromWord('fold'),
 				$author$project$Puzzle$Given('poker')
+			])),
+		$author$project$Puzzle$Puzzle(
+		_List_fromArray(
+			[
+				$author$project$Puzzle$unknownFromWord('gym'),
+				$author$project$Puzzle$Given('shower'),
+				$author$project$Puzzle$unknownFromWord('meteor'),
+				$author$project$Puzzle$unknownFromWord('dino'),
+				$author$project$Puzzle$Given('nugget')
+			])),
+		$author$project$Puzzle$Puzzle(
+		_List_fromArray(
+			[
+				$author$project$Puzzle$unknownFromWord('flower'),
+				$author$project$Puzzle$Given('bee'),
+				$author$project$Puzzle$unknownFromWord('honey'),
+				$author$project$Puzzle$unknownFromWord('bear')
+			])),
+		$author$project$Puzzle$Puzzle(
+		_List_fromArray(
+			[
+				$author$project$Puzzle$unknownFromWord('daisy'),
+				$author$project$Puzzle$Given('chain'),
+				$author$project$Puzzle$unknownFromWord('links'),
+				$author$project$Puzzle$Given('sausage')
+			])),
+		$author$project$Puzzle$Puzzle(
+		_List_fromArray(
+			[
+				$author$project$Puzzle$unknownFromWord('archive'),
+				$author$project$Puzzle$unknownFromWord('record'),
+				$author$project$Puzzle$Given('vinyl'),
+				$author$project$Puzzle$unknownFromWord('plastic')
+			])),
+		$author$project$Puzzle$Puzzle(
+		_List_fromArray(
+			[
+				$author$project$Puzzle$unknownFromWord('high'),
+				$author$project$Puzzle$unknownFromWord('baked'),
+				$author$project$Puzzle$unknownFromWord('bread'),
+				$author$project$Puzzle$Given('loaf'),
+				$author$project$Puzzle$unknownFromWord('cat')
+			])),
+		$author$project$Puzzle$Puzzle(
+		_List_fromArray(
+			[
+				$author$project$Puzzle$unknownFromWord('encore'),
+				$author$project$Puzzle$unknownFromWord('flower'),
+				$author$project$Puzzle$unknownFromWord('field'),
+				$author$project$Puzzle$Given('stadium'),
+				$author$project$Puzzle$unknownFromWord('concert')
 			]))
 	]);
 var $elm$core$List$drop = F2(
@@ -6021,6 +6072,57 @@ var $author$project$PuzzleWithGivenBlanks$allPuzzles = _List_fromArray(
 				$author$project$PuzzleWithGivenBlanks$GivenEntry('iron'),
 				$author$project$PuzzleWithGivenBlanks$UnknownEntry('fold'),
 				$author$project$PuzzleWithGivenBlanks$GivenEntry('poker')
+			])),
+		$author$project$PuzzleWithGivenBlanks$puzzleFromEntries(
+		_List_fromArray(
+			[
+				$author$project$PuzzleWithGivenBlanks$UnknownEntry('gym'),
+				$author$project$PuzzleWithGivenBlanks$UnknownEntry('shower'),
+				$author$project$PuzzleWithGivenBlanks$UnknownEntry('meteor'),
+				$author$project$PuzzleWithGivenBlanks$UnknownEntry('dino'),
+				$author$project$PuzzleWithGivenBlanks$GivenEntry('nugget')
+			])),
+		$author$project$PuzzleWithGivenBlanks$puzzleFromEntries(
+		_List_fromArray(
+			[
+				$author$project$PuzzleWithGivenBlanks$UnknownEntry('flower'),
+				$author$project$PuzzleWithGivenBlanks$GivenEntry('bee'),
+				$author$project$PuzzleWithGivenBlanks$UnknownEntry('honey'),
+				$author$project$PuzzleWithGivenBlanks$UnknownEntry('bear')
+			])),
+		$author$project$PuzzleWithGivenBlanks$puzzleFromEntries(
+		_List_fromArray(
+			[
+				$author$project$PuzzleWithGivenBlanks$UnknownEntry('daisy'),
+				$author$project$PuzzleWithGivenBlanks$GivenEntry('chain'),
+				$author$project$PuzzleWithGivenBlanks$UnknownEntry('links'),
+				$author$project$PuzzleWithGivenBlanks$GivenEntry('sausage')
+			])),
+		$author$project$PuzzleWithGivenBlanks$puzzleFromEntries(
+		_List_fromArray(
+			[
+				$author$project$PuzzleWithGivenBlanks$UnknownEntry('archive'),
+				$author$project$PuzzleWithGivenBlanks$UnknownEntry('record'),
+				$author$project$PuzzleWithGivenBlanks$GivenEntry('vinyl'),
+				$author$project$PuzzleWithGivenBlanks$UnknownEntry('plastic')
+			])),
+		$author$project$PuzzleWithGivenBlanks$puzzleFromEntries(
+		_List_fromArray(
+			[
+				$author$project$PuzzleWithGivenBlanks$UnknownEntry('high'),
+				$author$project$PuzzleWithGivenBlanks$UnknownEntry('baked'),
+				$author$project$PuzzleWithGivenBlanks$UnknownEntry('bread'),
+				$author$project$PuzzleWithGivenBlanks$GivenEntry('loaf'),
+				$author$project$PuzzleWithGivenBlanks$UnknownEntry('cat')
+			])),
+		$author$project$PuzzleWithGivenBlanks$puzzleFromEntries(
+		_List_fromArray(
+			[
+				$author$project$PuzzleWithGivenBlanks$UnknownEntry('encore'),
+				$author$project$PuzzleWithGivenBlanks$UnknownEntry('flower'),
+				$author$project$PuzzleWithGivenBlanks$UnknownEntry('field'),
+				$author$project$PuzzleWithGivenBlanks$GivenEntry('stadium'),
+				$author$project$PuzzleWithGivenBlanks$UnknownEntry('concert')
 			]))
 	]);
 var $author$project$Page$GameWithGivenBlanks$fromPuzzleIndex = function (puzzleIndex) {
